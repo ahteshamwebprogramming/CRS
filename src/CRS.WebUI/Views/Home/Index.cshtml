@@ -1,0 +1,296 @@
+﻿@{
+    ViewData["Title"] = "CheckOutList";
+    //   Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralized Reservation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .form-control {
+            padding: 15px 22px;
+            border: #7b584f solid 2px
+        }
+
+        .bg-primary {
+            background: #7b584f !important
+        }
+
+        .btn-primary {
+            background: #7b584f !important;
+            font-size: 18px;
+            border: 0;
+            padding: 12px 49px;
+        }
+
+        .roomDetails_btn {
+            background: #7b584f !important;
+            color: #fff;
+            padding: 8px 20px 10px 20px;
+            display: inline-block;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600
+        }
+
+        #hotelDetails img {
+            border-radius: 12px;
+        }
+
+        #hotelDetails {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 30%;
+            height: 100%;
+            background-color: #f8f9fa;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+            transition: right 0.5s ease;
+            z-index: 1050;
+        }
+
+            #hotelDetails.active {
+                right: 0;
+            }
+
+            #hotelDetails h2 {
+                font-size: 22px;
+                margin: 12px 0 10px 0
+            }
+
+            #hotelDetails h3 {
+                font-size: 22px;
+                margin: 12px 0 10px 0
+            }
+
+            #hotelDetails .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                background: #fdd3d3;
+                height: 35px;
+                width: 35px;
+                text-align: center;
+                line-height: 32px;
+                font-weight: 600;
+                color: red;
+                border-radius: 100px;
+            }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1040;
+        }
+
+            #overlay.active {
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Reservation System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Centralized Reservation System</h1>
+        <!-- Search Form -->
+        <form class="row g-3 my-4">
+            <div class="col-md-4">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter location">
+            </div>
+            <div class="col-md-4">
+                <label for="checkin" class="form-label">Check-in Date</label>
+                <input type="date" class="form-control" id="checkin">
+            </div>
+            <div class="col-md-4">
+                <label for="checkout" class="form-label">Check-out Date</label>
+                <input type="date" class="form-control" id="checkout">
+            </div>
+            <div class="col-12 text-left">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+        <!-- Hotel List -->
+        <div class="row mt-4">
+            <div class="col-md-4" onclick="showHotelDetails('Hotel Sunshine')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Hotel Sunshine">
+                    <div class="card-body">
+                        <h5 class="card-title">Hotel Sunshine</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" onclick="showHotelDetails('Grand Palace')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Grand Palace">
+                    <div class="card-body">
+                        <h5 class="card-title">Grand Palace</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" onclick="showHotelDetails('Ocean View Resort')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Ocean View Resort">
+                    <div class="card-body">
+                        <h5 class="card-title">Ocean View Resort</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4" onclick="showHotelDetails('Hotel Sunshine')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Hotel Sunshine">
+                    <div class="card-body">
+                        <h5 class="card-title">Hotel Sunshine</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" onclick="showHotelDetails('Grand Palace')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Grand Palace">
+                    <div class="card-body">
+                        <h5 class="card-title">Grand Palace</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" onclick="showHotelDetails('Ocean View Resort')">
+                <div class="card">
+                    <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/global-offers/suite-memories.png" class="card-img-top" alt="Ocean View Resort">
+                    <div class="card-body">
+                        <h5 class="card-title">Ocean View Resort</h5>
+                        <p class="card-text">Select City Walk and DLF Emporio. Conveniently located in the heart of South Delhi, accessible to Lodhi Road, Nehru Place, Okhla Industrial Area and Chhatarpur farms.</p>
+                        <a href="#" class="roomDetails_btn">Room Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="closeHotelDetails()"></div>
+
+    <!-- Hotel Details Section -->
+    <div id="hotelDetails">
+        <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/sheraton-new-delhi/images/overview-landing-page/overview/desktop/hotel-facade.jpg" class="card-img-top" alt="Ocean View Resort">
+        <span class="close-btn" onclick="closeHotelDetails()">&times;</span>
+        <h2 id="hotelName">Hotel Details</h2>
+        <p id="hotelDescription">Select a hotel to view its details.</p>
+        <ul id="hotelFeatures" class="list-group">
+            <!-- Features will be dynamically added here -->
+        </ul>
+        <h3>Location</h3>
+        <p>
+            <i class="fas fa-location me-2"></i> Icon awesome-map-marker-alt.png <br>
+            District Centre Saket, Delhi 110017, New Delhi
+        </p>
+        <h3>Hotel Contact Details</h3>
+        <p> <i class="fas fa-phone me-2"></i>+91 11 42661122 <br> <i class="fas fa-envelope me-2"></i>reservations@itchotels.in  </p>
+        <a href="booking.html" class="roomDetails_btn">Book Now</a>
+    </div>
+
+    <script>
+        function showHotelDetails(hotelName) {
+            const hotelData = {
+                "Hotel Sunshine": {
+                    description: "A luxurious hotel with stunning city views.",
+                    features: [
+                        { text: "Free Wi-Fi", icon: "fas fa-wifi" },
+                        { text: "Swimming Pool", icon: "fas fa-swimmer" },
+                        { text: "24/7 Room Service", icon: "fas fa-concierge-bell" }
+                    ]
+                },
+                "Grand Palace": {
+                    description: "Experience royal treatment at this grand hotel.",
+                    features: [
+                        { text: "Spa", icon: "fas fa-spa" },
+                        { text: "Fine Dining", icon: "fas fa-utensils" },
+                        { text: "Conference Rooms", icon: "fas fa-chalkboard-teacher" }
+                    ]
+                },
+                "Ocean View Resort": {
+                    description: "Relax by the ocean with beautiful sunset views.",
+                    features: [
+                        { text: "Beach Access", icon: "fas fa-umbrella-beach" },
+                        { text: "Water Sports", icon: "fas fa-water" },
+                        { text: "Family Friendly", icon: "fas fa-child" }
+                    ]
+                }
+            };
+
+            const details = hotelData[hotelName];
+            if (details) {
+                document.getElementById('hotelName').innerText = hotelName;
+                document.getElementById('hotelDescription').innerText = details.description;
+
+                const featuresList = document.getElementById('hotelFeatures');
+                featuresList.innerHTML = '';
+                details.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex align-items-center';
+                    li.innerHTML = `<i class="${feature.icon} me-2"></i> ${feature.text}`;
+                    featuresList.appendChild(li);
+                });
+
+                document.getElementById('hotelDetails').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            }
+        }
+
+        function closeHotelDetails() {
+            document.getElementById('hotelDetails').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
