@@ -1,0 +1,97 @@
+﻿@model CRS.Infrastructure.ViewModels.Rooms.RoomsViewModel
+
+@{
+    if (Model != null && Model.RoomCalenderPrices != null)
+    {
+        foreach (var item in Model.RoomCalenderPrices)
+        {
+            <div class="date-item">
+                <span>@item?.Date?.ToString("ddd")</span><br>
+                <span class="">@item?.Date?.ToString("dd") @item?.Date?.ToString("MMM")</span><br>
+                <span class="text-success">₹@(item?.Price?.ToString("N0") ?? "0.00")</span><br>
+                <small class="text-muted">
+                    @{
+                        if (item?.RoomsAvailable == 0)
+                        {
+                            <span style="color:red">Sold Out</span>
+                        }
+                        else if (item?.RoomsAvailable == 1)
+                        {
+                            <span>1 Room</span>
+                        }
+                        else
+                        {
+                            <span>@item?.RoomsAvailable Rooms</span>
+                        }
+
+                    }
+                </small>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="date-item selected">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+        <div class="date-item ">
+            <strong>...</strong><br>
+            <span class="fw-bold">...</span><br>
+            <span class="text-success">...</span><br>
+            <small class="text-muted">...</small>
+        </div>
+    }
+}
+
+

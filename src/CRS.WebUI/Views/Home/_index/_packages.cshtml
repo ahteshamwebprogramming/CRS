@@ -1,0 +1,32 @@
+﻿@model CRS.Infrastructure.ViewModels.Rooms.RoomsViewModel
+
+<div class="containerStay">
+    <h4 class="mb-3">Packages</h4>
+
+
+    @{
+        if (Model != null && Model.Services != null)
+        {
+            foreach (var item in Model.Services)
+            {
+                <div class="addon-card d-flex">
+                    @*<div class="icon-box">
+        <img src="https://img.icons8.com/ios-filled/50/towel.png" alt="Towel">
+        </div>*@
+                    <div class="addon-content">
+                        <div class="addon-title" style="position:relative">
+                            <p style="">
+                                @item.Service
+                                @*<span class="addon-old-price">₹110</span>*@
+                                <span class="addon-price">₹@item.Price</span>
+                            </p>
+                            @*<input type="radio" name="Rd" class="form-check-input packageRadio">*@
+                        </div>
+                        <div class="addon-description">@item.Description</div>
+                    </div>
+                </div>
+            }
+        }
+    }
+
+</div>

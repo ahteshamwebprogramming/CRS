@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CRS.Core\CRS.Core.csproj" />
+    <ProjectReference Include="..\..\CRS.Infrastructure\CRS.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

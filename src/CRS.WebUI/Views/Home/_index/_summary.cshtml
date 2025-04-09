@@ -1,0 +1,37 @@
+﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
+<h2 class="mb-3">Summary</h2>
+<div class="booking-container">
+    <div class="header">
+        <div class="text-start">
+            CHECK IN <br>
+            <span class="date">@Model?.SummaryInputDTO?.CheckInDate?.ToString("dd MMM, yyyy")</span>
+        </div>
+        <div class="nights">@Model?.SummaryInputDTO?.NoOfRooms Night</div>
+        <div class="text-end">
+            CHECK OUT <br>
+            <span class="date">@Model?.SummaryInputDTO?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
+        </div>
+    </div>
+
+    <div class="room-title">@Model?.RoomTypeDTO?.Rtype</div>
+    <div class="price-details">
+        ₹379.60 /Night x 1 (1 Guest) <span class="amount">₹379.60</span>
+    </div>
+
+    <hr>
+
+    <div class="price-details">
+        Total Room Charges <span class="amount">₹379.60</span>
+    </div>
+    <div class="price-details">
+        Total Taxes (GST) <span class="amount">₹45.55</span>
+    </div>
+
+    <hr>
+
+    <div class="total">
+        Total Price <span class="amount">₹425.15</span>
+    </div>
+
+    <a href="booking.html" class="button">Review booking</a>
+</div>

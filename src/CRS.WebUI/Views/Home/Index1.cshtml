@@ -1,8 +1,1369 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    //   Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hostel Booking Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style type="text/css">
+
+        .packageRadio {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border: 1px solid black;
+        }
+
+
+        .hotelFeatures li {
+            margin-right: 12px;
+        }
+
+        .rounded-start {
+            height: 100%
+        }
+
+        .date-slider-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+            .date-slider::-webkit-scrollbar {
+                display: none;
+            }
+
+        .date-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 100px;
+        }
+
+        .selected {
+            background: #d8785f87;
+        }
+
+        .date-item:hover {
+            background: #d8785f87;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+            .slider-btn.left {
+                left: 0;
+            }
+
+            .slider-btn.right {
+                right: 0;
+            }
+
+        .availability_calendar {
+            cursor: pointer;
+        }
+
+        .bg-warning {
+            background-color: #7b584f !important;
+            color: #fff !important;
+        }
+
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+            background: #7b584f;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #fff;
+            border-color: #569ff7;
+        }
+
+        #dateRangePicker {
+            width: 330px;
+        }
+
+        ::placeholder {
+            color: #fff;
+            opacity: 1; /* Firefox */
+        }
+
+        ::-ms-input-placeholder { /* Edge 12 -18 */
+            color: #fff;
+        }
+
+        .rounded {
+            border-radius: 20px !important;
+        }
+
+        .accordion-item {
+            box-shadow: 0 2px 8px 0 rgba(99, 99, 99, .2);
+            border-radius: 12px !important;
+            margin: 0 0 20px 0;
+            overflow: hidden;
+        }
+
+        .booking-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: gray;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .nights {
+            background: #7b584f;
+            padding: 5px 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .room-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .price-details {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .amount {
+            font-weight: bold;
+            float: right;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .button {
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            background: #7b584f !important;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .containerStay {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .addon-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .icon-box {
+            background: #fff9c4;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+            .icon-box img {
+                width: 24px;
+                height: 24px;
+            }
+
+        .addon-content {
+            flex-grow: 1;
+        }
+
+        .addon-title {
+            font-weight: bold;
+        }
+
+        .addon-price {
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .addon-old-price {
+            text-decoration: line-through;
+            color: gray;
+            margin-right: 5px;
+        }
+
+        .addon-description {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .addon-action {
+            font-weight: bold;
+        }
+
+        .carousel-inner img {
+            height: 100%;
+            border-radius: 6px 0 0px 6px
+        }
+
+        .bg-primary {
+            background: #7b584f !important;
+        }
+
+        .iconArea {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: 0.3s;
+            align-items: center;
+        }
+
+        .feature-content {
+            margin-top: 10px;
+        }
+
+        .feature-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fff;
+        }
+
+            .feature-card:hover {
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+        .feature-icon {
+            background-color: #cccccc36;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            min-height: 50px;
+            border: #ccc solid 1px;
+        }
+
+            .feature-icon img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .feature-content h5 {
+            font-weight: bold;
+        }
+
+        .accordion-button {
+            font-weight: bold;
+        }
+
+            .accordion-button .icon {
+                margin-right: 10px;
+            }
+
+        .colmns {
+            background: #7b584f;
+            padding: 24px;
+            border-radius: 20px;
+        }
+
+            .colmns h4 {
+                color: #fff;
+            }
+
+        .faqs h3 {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 26px;
+        }
+
+        .faqs {
+            background: #7b584f !important;
+            padding: 30px 0
+        }
+
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+            .info-box i {
+                font-size: 24px;
+                color: #000;
+            }
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .info-text span {
+                font-size: 14px;
+                color: gray;
+            }
+
+            .info-text strong {
+                font-size: 16px;
+                color: black;
+            }
+
+        .counter-container {
+            display: none; /* Completely hide the counter initially */
+        }
+
+        .btn-success {
+            background: #7b584f !important;
+            border: #7b584f;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: #7b584f !important;
+            border: #7b584f;
+            font-weight: 600;
+        }
+
+    </style>
+    <style type="text/css">
+        .modalOpner {
+            cursor: pointer;
+        }
+
+        .hotelFeatures li {
+            margin-right: 12px;
+        }
+
+        .rounded-start {
+            height: 100%
+        }
+
+        .date-slider-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .grid li {
+            display: flex;
+        }
+
+        .modal .carousel-inner img {
+            height: auto
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            list-style: none;
+            gap: .5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .btn-success {
+            background: #7b584f !important;
+            border: #7b584f;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: #7b584f !important;
+            border: #7b584f;
+            font-weight: 600;
+        }
+
+        .date-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+            .date-slider::-webkit-scrollbar {
+                display: none;
+            }
+
+        .date-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 100px;
+        }
+
+        .selected {
+            background: #d8785f87;
+        }
+
+        .date-item:hover {
+            background: #d8785f87;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+            .slider-btn.left {
+                left: 0;
+            }
+
+            .slider-btn.right {
+                right: 0;
+            }
+
+        .availability_calendar {
+            cursor: pointer;
+        }
+
+        .bg-warning {
+            background-color: #7b584f !important;
+            color: #fff !important;
+        }
+
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+            background: #7b584f;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #fff;
+            border-color: #569ff7;
+        }
+
+        #dateRangePicker {
+            width: 330px;
+        }
+
+        ::placeholder {
+            color: #fff;
+            opacity: 1;
+            / Firefox /
+        }
+
+        ::-ms-input-placeholder {
+            / Edge 12 -18 / color: #fff;
+        }
+
+        .rounded {
+            border-radius: 20px !important;
+        }
+
+        .accordion-item {
+            box-shadow: 0 2px 8px 0 rgba(99, 99, 99, .2);
+            border-radius: 12px !important;
+            margin: 0 0 20px 0;
+            overflow: hidden;
+        }
+
+        .booking-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: gray;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .nights {
+            background: #7b584f;
+            padding: 5px 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .room-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .price-details {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .amount {
+            font-weight: bold;
+            float: right;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .button {
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            background: #7b584f !important;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .containerStay {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .addon-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .icon-box {
+            background: #fff9c4;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+            .icon-box img {
+                width: 24px;
+                height: 24px;
+            }
+
+        .addon-content {
+            flex-grow: 1;
+        }
+
+        .addon-title {
+            font-weight: bold;
+        }
+
+        .addon-price {
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .addon-old-price {
+            text-decoration: line-through;
+            color: gray;
+            margin-right: 5px;
+        }
+
+        .addon-description {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .addon-action {
+            font-weight: bold;
+        }
+
+        .carousel-inner img {
+            height: 100%;
+            border-radius: 6px 0 0px 6px
+        }
+
+        .bg-primary {
+            background: #7b584f !important;
+        }
+
+        .iconArea {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: 0.3s;
+            align-items: center;
+        }
+
+        .feature-content {
+            margin-top: 10px;
+        }
+
+        .feature-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fff;
+        }
+
+            .feature-card:hover {
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+        .feature-icon {
+            background-color: #cccccc36;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            min-height: 50px;
+            border: #ccc solid 1px;
+        }
+
+            .feature-icon img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .feature-content h5 {
+            font-weight: bold;
+        }
+
+        .accordion-button {
+            font-weight: bold;
+        }
+
+            .accordion-button .icon {
+                margin-right: 10px;
+            }
+
+        .colmns {
+            background: #7b584f;
+            padding: 24px;
+            border-radius: 20px;
+        }
+
+            .colmns h4 {
+                color: #fff;
+            }
+
+        .faqs h3 {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 26px;
+        }
+
+        .faqs {
+            background: #7b584f !important;
+            padding: 30px 0
+        }
+
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+            .info-box i {
+                font-size: 24px;
+                color: #000;
+            }
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .info-text span {
+                font-size: 14px;
+                color: gray;
+            }
+
+            .info-text strong {
+                font-size: 16px;
+                color: black;
+            }
+
+        .counter-container {
+            display: none;
+            / Completely hide the counter initially /
+        }
+
+        .rows {
+            overflow: hidden;
+            max-height: 500px;
+            / Height for 4 rows / transition: max-height 0.3s ease-in-out;
+        }
+
+            .rows.expanded {
+                max-height: 800px;
+                / Height for 8 rows /
+            }
+
+
+
+
+                .rows.expanded .packageDate,
+                .rows.expanded .summaryPackage {
+                    overflow-y: auto;
+                    / Enables scrolling / overflow-x: hidden;
+                    / Prevents horizontal scroll / max-height: 700px;
+                    / Limit height /
+                }
+
+                    .rows.expanded .packageDate::-webkit-scrollbar,
+                    .rows.expanded .summaryPackage::-webkit-scrollbar {
+                        width: 2px;
+                        background-color: transparent;
+                    }
+
+                    .rows.expanded .packageDate::-webkit-scrollbar-thumb,
+                    .rows.expanded .summaryPackage::-webkit-scrollbar-thumb {
+                        background-color: transparent;
+                    }
+
+        / Show scrollbar for .packageDate only when it is hovered /
+        .rows.expanded .packageDate:hover::-webkit-scrollbar {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .rows.expanded .packageDate:hover::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 3px;
+        }
+
+        / Show scrollbar for .summaryPackage only when it is hovered /
+        .rows.expanded .summaryPackage:hover::-webkit-scrollbar {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .rows.expanded .summaryPackage:hover::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 3px;
+        }
+
+        .rowInner {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            display: block;
+            align-items: center;
+            background: #f2f2f26b;
+            border: #dfdfdf solid 1px;
+            color: #fff;
+            width: 100px;
+            border-radius: 52px;
+            text-align: center;
+            margin: 15px auto 0 auto;
+            padding: 14px;
+        }
+
+        .booking-containerCrs {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #7b584f;
+            padding: 10px 20px;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .booking-field input {
+            width: 100%;
+            border-radius: 8px;
+            padding: 6px 14px;
+            border: #f2f2f2 solid 1px;
+        }
+
+        .booking-field {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            color: #333;
+            width: 100%
+        }
+
+            .booking-field i {
+                color: #fff;
+            }
+
+        .book-now {
+            background: #caa768;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+            / Prevent button text from breaking /
+        }
+
+            .book-now:hover {
+                background: #b08b5a;
+            }
+
+        #dateRangePicker {
+            color: #000;
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://www.naadwellness.com">Naad Wellness</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Reservations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact Reservation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container py-4">
+        <!-- Availability Section -->
+        <div class="mb-4 col-md-12 m-auto text-center">
+            <h3>Your’s Wellness Program: Your Path to Well-Being</h3>
+            <div class="searhCrs">
+
+                <div class="booking-containerCrs">
+                    <div class="booking-field">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search location" value="ITC Ratnadipa, Colombo">
+                    </div>
+
+                    <div class="booking-field">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input id="dateRangePicker" class="dateRangePicker" type="text" placeholder="Select date ">
+                    </div>
+
+                    <div class="booking-field">
+                        <i class="fas fa-bed"></i>
+                        <input type="text" placeholder="Rooms" value="1 Room">
+                    </div>
+
+                    <div class="booking-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Guests" value="1 Adult, 0 Child">
+                    </div>
+
+                    <button class="book-now">BOOK NOW</button>
+                </div>
+
+            </div>
+            @* <input type="button" class="btn btn-primary" value="Date" onclick="GetDates()" /> *@
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <div id="div_RoomTypeGridPartialView">
+                    @* @Html.Partial("_index/_roomTypeGridView") *@
+                </div>
+
+            </div>
+            <div class="col-md-4 col-md-4 bg-light rounded p-4">
+                <div id="div_SummaryPartialView">
+                    @* @Html.Partial("_index/_summary") *@
+                </div>
+                <div id="div_PackagesPartialView">
+                    @Html.Partial("_index/_packages")
+                </div>
+                <div id="div_PackagesDateWisePartialView">
+                    @* @Html.Partial("_index/_packagesDateWise") *@
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <!-- Why You'll Love It Here -->
+        <div class="mt-4 colmns">
+            <h4>Why You'll Love It Here</h4>
+            <div class="container mt-4">
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <div class="feature-card">
+                            <div class="iconArea">
+                                <div class="feature-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/1046/1046757.png" alt="Food">
+                                </div>
+                                <h5>Food heaven</h5>
+                            </div>
+                            <div class="feature-content">
+
+                                <p>Amritsar is a haven for foodies and each nook and cranny is filled with generational eateries serving up lassi, kebabs, chole-kulche, various desserts and baked goods.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="feature-card">
+                            <div class="iconArea">
+                                <div class="feature-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/684/684908.png" alt="Border">
+                                </div>
+                                <h5>Wagah Border</h5>
+                            </div>
+                            <div class="feature-content">
+
+                                <p>A once in a lifetime experience, the daily border ceremonies in Wagah are visually stunning and reason enough to come stay in this culturally rich city.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="feature-card">
+                            <div class="iconArea">
+                                <div class="feature-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/684/684809.png" alt="Location">
+                                </div>
+                                <h5>Prime location</h5>
+                            </div>
+                            <div class="feature-content">
+                                <p>Nestled near famous attractions like the Golden Temple, Jallianwala Bagh, and several eateries - the hostel is placed perfectly for all your sightseeing needs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="feature-card">
+                            <div class="iconArea">
+                                <div class="feature-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/2995/2995464.png" alt="Activities">
+                                </div>
+                                <h5>Local activities</h5>
+                            </div>
+                            <div class="feature-content">
+
+                                <p>Select from an array of local activities, day tours, night events, and sightseeing tours to enjoy the heritage, culture, cuisine, and local vibe of the city.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Location -->
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="mt-4">
+                    <h4>Location</h4>
+
+                    <iframe class="w-100 rounded" height="250" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224346.32835516133!2d77.20898509999999!3d28.5273522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1740772077569!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Important Information -->
+                <div class="mt-5 p-3 bg-light rounded">
+
+                    <div class="accordion" id="travelAccordion">
+
+                        <!-- Airport Section -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#airportCollapse">
+                                    <span class="icon">✈️</span> From the airport
+                                </button>
+                            </h2>
+                            <div id="airportCollapse" class="accordion-collapse collapse " data-bs-parent="#travelAccordion">
+                                <div class="accordion-body">
+                                    Travellers can easily reach Amritsar via a flight as the city has its own airport – Sri Guru Ram Dass Jee International Airport (approx. 11 km from the city centre).
+                                    The international airport serves as the gateway to both domestic and international flights. Hostel is 10 km from the airport and can be reached via bus or cab.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Train Station Section -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trainCollapse">
+                                    <span class="icon">🚆</span> From the train station
+                                </button>
+                            </h2>
+                            <div id="trainCollapse" class="accordion-collapse collapse" data-bs-parent="#travelAccordion">
+                                <div class="accordion-body">
+                                    Amritsar enjoys easy accessibility from all major destinations in India via express and superfast trains. Amritsar Junction (ASR) railway station is the gateway for
+                                    trains entering the city. Major train stations in Amritsar: Amritsar Junction (ASR), Verka Junction (VKA), Mananwala (MOW), Tangra (TRA). Travellers can easily find
+                                    cabs and auto-rickshaws to the hostel from outside the station. The Hostel is approx. 2.5KM from Amritsar Junction.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bus Station Section -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#busCollapse">
+                                    <span class="icon">🚌</span> From the bus station
+                                </button>
+                            </h2>
+                            <div id="busCollapse" class="accordion-collapse collapse" data-bs-parent="#travelAccordion">
+                                <div class="accordion-body">
+                                    Amritsar has an integrated road network via which travellers can easily access the city from neighbouring places. NH 3, NH 54, and Grand Trunk Road are among the
+                                    most prominent arterial roads in Amritsar. For those who opt for inter-state buses, ISBT Amritsar is the prime bus station in the city. The hostel is 3 km from ISBT
+                                    and travellers can easily find cabs and auto-rickshaws to the hostel from outside the station.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="faqs">
+        <div class="container mt-4">
+
+
+            <div class="timing">
+                <h3>Timings</h3>
+                <div class="d-flex justify-content-between gap-3">
+                    <div class="info-box">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <div class="info-text">
+                            <span>Check In</span>
+                            <strong>2 PM</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <div class="info-text">
+                            <span>Check Out</span>
+                            <strong>11 AM</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-users"></i>
+                        <div class="info-text">
+                            <span>Guest Visit</span>
+                            <strong>9 AM - 9 PM</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-coffee"></i>
+                        <div class="info-text">
+                            <span>Cafe</span>
+                            <strong>9 AM - 3 PM & 6 PM - 11 PM</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-bell"></i>
+                        <div class="info-text">
+                            <span>Reception</span>
+                            <strong>24 Hours</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-couch"></i>
+                        <div class="info-text">
+                            <span>Common Area</span>
+                            <strong>24 Hours</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <h3>Faqs</h3>
+            <div class="accordion mt-3" id="faqAccordion">
+
+                <!-- FAQ 1 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is the location of The Hosteller Amritsar?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The Hosteller Amritsar is located on City Centre, 91 - 92, Phoola Singh Burj, Ram Talai Chowk, near Guru Nanak Bhawan, Amritsar, Punjab 143001.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Which is the nearest railway station?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Amritsar enjoys easy accessibility from all major destinations in India via express and superfast trains. Amritsar Junction (ASR) railway station is the gateway for trains entering the city. Major train stations in the city are Amritsar Junction (ASR), Verka Junction (VKA), Mananwala (MOW), Tangra (TRA). Travellers can easily find cabs and auto-rickshaws to the hostel from outside the station.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Which is the nearest airport?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Travellers can easily reach Amritsar via a flight as the city has its own airport – Sri Guru Ram Dass Jee International Airport (approx. 11 km from the city centre). The international airport serves as the gateway to both domestic and international flights. Hostel is 10 km from the airport and can be reached via bus or cab.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            What is the best time to visit Amritsar?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Amritsar, you can choose to go in October, November, December, January, February, and March, which is the peak season, and July, August, and September, which is the moderate season.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            Does The Hosteller Amritsar have a cafe?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, we do have an in-house cafe in The Hosteller Amritsar.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                            Is the hostel pet friendly?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, the hostel is pet friendly. However, pets are allowed in private rooms only. Not in the dorms.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                            Do the rooms have attached washrooms?
+                        </button>
+                    </h2>
+                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, all private rooms and dorms have attached washrooms.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                            Is power backup available in your property?
+                        </button>
+                    </h2>
+                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, power backup is available.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/customjs/roomtype/roomtype.js"></script>
+    <script src="~/customjs/roomtype/availabilitycalender.js"></script>
+
+    <script type="text/javascript">
+        let currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 7);
+        // Get the current date + 1 day
+        let nextDate = new Date();
+        nextDate.setDate(currentDate.getDate() + 1);
+
+        $(document).ready(function () {
+
+            RoomTypeGridPartialView(currentDate.toISOString().split('T')[0], nextDate.toISOString().split('T')[0]);
+            PackagesPartialView();
+
+
+
+        });
+
+
+    </script>
+
+    <script>
+        function scrollSlider(direction) {
+            const slider = document.querySelector(".date-slider");
+            const scrollAmount = 150;
+            slider.scrollLeft += direction * scrollAmount;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const calendarToggle = document.querySelector(".availability_calendar");
+            const dateSliderContainer = document.querySelector(".date-slider-container");
+
+            calendarToggle.addEventListener("click", function () {
+                dateSliderContainer.classList.toggle("d-none");
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+
+        // Get the current date
+
+        flatpickr("#dateRangePicker", {
+            mode: "range", // Enables date range selection
+            dateFormat: "Y-m-d", // Format of displayed dates
+            showMonths: 2, // Shows two months side by side
+            prevArrow: "<span>&lt;</span>", // Custom previous arrow
+            nextArrow: "<span>&gt;</span>", // Custom next arrow
+            defaultDate: [currentDate, nextDate],
+            onChange: function (selectedDates, dateStr, instance) {
+                // Optionally, handle the selected dates programmatically
+                console.log("Selected dates:", selectedDates);
+                //StartDate = selectedDates[0];
+                //EndDate = selectedDates[1];
+                //GetDates();
+                //alert(selectedDates[0] + " : " + selectedDates[1])
+                currentDate = selectedDates[0];
+                nextDate = selectedDates[1];
+                if (selectedDates[0] != null && selectedDates[0] != undefined && selectedDates[0] != "" && selectedDates[1] != null && selectedDates[1] != undefined && selectedDates[1] != "")
+                    RoomTypeGridPartialView(selectedDates[0], selectedDates[1]);
+            }
+        });
+    </script>
+</body>
+</html>

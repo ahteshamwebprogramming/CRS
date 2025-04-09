@@ -20,11 +20,11 @@ public class DapperGenericRepository<T> : IDapperRepository<T> where T : class, 
     private readonly string _connectionString;
     public DapperGenericRepository(DapperDBContext dapperDBContext)
     {
-        string strConnection = "Data Source=182.18.138.110;Initial Catalog=MedicalReports_BK;User ID=sa;Password=CG$sBK9%!8P4c$;Encrypt=False;";
+        //string strConnection = "Data Source=182.18.138.110;Initial Catalog=MedicalReports_BK;User ID=sa;Password=CG$sBK9%!8P4c$;Encrypt=False;";
         _dapperDBContext = dapperDBContext;
         DbConnection = dapperDBContext.CreateConnection();
-        _connection = new SqlConnection(strConnection);
-        _connectionString = strConnection;
+        //_connection = new SqlConnection(strConnection);
+        _connectionString = DbConnection.ConnectionString;
     }
     public object UpdateFields<TS>(T param, IDbConnection connection, IDbTransaction transaction = null, int? commandTimeOut = null)
     {
