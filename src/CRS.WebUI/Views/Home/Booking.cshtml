@@ -1,0 +1,462 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int totalPax = ViewBag.TotalPax ?? 0;
+}
+
+
+
+<title>Hotel Room Reservation - Checkout</title>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+    .bg-primary {
+    background: #7b584f !important
+    }
+
+    .btn-primary, .btn-success {
+    background: #7b584f !important;
+    padding: 15px 22px !important;
+    border: 0;
+    }
+
+    .form-row{font-size:24px;}
+    .form-control {
+    padding: 5px 22px !important;
+    height: auto;
+    border: #c5c5c5 solid 2px;
+    font-size: 14px
+    }
+
+    #reservationForm {
+    background: #e9e9e978;
+    padding: 29px;
+    border-radius: 20px;
+    }
+
+    #reviewAndPayment, #confirmation {
+    background: #e9e9e978;
+    padding: 29px;
+    border-radius: 20px;
+    }
+
+    .addon-card{position:relative;}
+
+    .addon-card .form-check-input {
+
+    right: 14px;
+    }
+
+    .addguest_title {
+    font-size: 14px;
+    width: 100%;
+    padding: 11px 0 14px 17px;
+    border-bottom: #ccc solid 1px;
+    }
+
+    .card1 {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0 0 16px 0;
+    font-size: 15px;
+    margin-bottom:15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #f9f9f9;
+    }
+
+    .ageSelector {
+    width: 100px;
+    }
+    .gSelect{gap:10px;}
+    .card1 h4 {
+    background: #d3c2bd63;
+    color: black;
+    padding: 12px 16px;
+    font-size: 18px;
+    margin-bottom:10px;
+    margin-left: -15px;
+    margin-right: -15px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom:#ccc solid 1px;
+
+    }
+
+    .list_form {
+    display: flex;
+    flex-wrap: wrap;
+    }
+
+    .h2, h2 {
+    font-size: 24px;
+    }
+
+    /*  .col-md-3 {
+    padding-right: 5px;
+    padding-left: 5px;
+    } */
+    .gSelect .form-control {
+    padding: 5px 9px !important;
+
+    }
+
+    .container {
+    max-width: 1450px;
+    }
+
+    .guestList {
+    gap: 10px;
+    flex-wrap: inherit;
+    }
+
+    .footer[b-wvlon0mgsf]{position:relative; margin-top:30px;}
+    .guestListOuterBlock{margin: 15px;}
+</style>
+<link href="~/customcss/index.css" rel="stylesheet" />
+
+
+
+<div class="cCtaoiner">
+    <h2 class="text-center">Room Reservation</h2>
+
+    <!-- Step 1: Reservation Form -->
+    <div id="reservationForm" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form id="bookingForm" >
+                    <!-- Card start -->
+                    <div class="card1">
+                        <div class="form-group col-md-12 m-0">
+                            <h4>Contact Details</h4>
+                        </div>
+                        <div class="list_form ">
+                            <div class="form-group col-md-6">
+                                <label for="numGuests" >Email</label>
+                                <input type="email" class="form-control" id="emailInput" placeholder="" required name="Email">
+                                <button type="button" id="sendCodeBtn" class="btn btn-secondary mt-2" style="display:none;">Send Verification Code</button>
+                                <input type="text" class="form-control mt-2" id="emailCodeInput" placeholder="Enter 6-digit code" style="display:none;" />
+
+                                <!-- Verify Code button -->
+                                <button type="button" id="verifyCodeBtn" class="btn btn-success mt-2" style="display:none;">Verify Code</button>
+
+                                <small id="emailVerificationStatus" class="form-text text-muted"></small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="numGuests">Phone Number</label>
+                                <input type="number" name="PhoneNumber" class="form-control" id="phoneNumber" placeholder="" required>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card1">
+                        <div class="form-group col-md-12 m-0">
+                            <h4>Guest Details </h4>
+                        </div>
+                        @for (int i = 0; i < totalPax; i++)
+                        {
+                            <div class="guestListOuterBlock">
+                                <h6>@($"Guest {i + 1}")</h6>
+                                <div class="list_form guestList">
+
+                                    <div class="form-group">
+                                        @*  <label for="guestFirstName_@i">First Name</label> *@
+                                            <input type="text" class="form-control" name="Guests[@i].FirstName" placeholder="First Name" id="guestFirstName_@i" name="Guests[@i].FirstName" required />
+                                    </div>
+                                    <div class="form-group">
+                                        @*   <label for="guestLastName_@i">Last Name</label> *@
+                                            <input type="text" class="form-control" name="Guests[@i].LastName" placeholder="Last Name" id="guestLastName_@i" name="Guests[@i].LastName" required />
+                                    </div>
+                                    <div class="form-group ">
+                                        @*  <label for="guestMiddleName_@i">Middle Name</label> *@
+                                            <input type="text" class="form-control" name="Guests[@i].MiddleName" placeholder="Middle Name" id="guestMiddleName_@i" name="Guests[@i].MiddleName"  />
+                                    </div>
+                                    <div class="form-group ">
+
+                                        <div class="genderSelection">
+                                            @*  <label for="guestGender_@i">Gender</label> *@
+                                            <select class="form-control" id="guestGender_@i" name="Guests[@i].Gender" required>
+                                                <option value="" disabled selected>Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-group ">
+
+                                        <div class="ageSelector">
+
+                                            <input type="number" placeholder="Age" name="Guests[@i].Age" class="form-control" id="guestAge_@i" name="Guests[@i].Age" required min="14" />
+                                        </div>
+
+
+                                    </div> 
+                                </div>
+                            </div>
+                        }
+                    </div>
+                        
+                        <!-- Card ends-->
+                        
+                        <!-- Card start -->
+                        <div class="card1">
+                            <div class="form-group col-md-12 m-0">
+                                <h4>Address</h4>
+                            </div>
+                            <div class="list_form ">
+                                <div class="form-group col-md-12">
+                                    <label for="checkInDate">Address</label>
+                                    <textarea rows="3" class="form-control" name="Address"></textarea>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="checkInDate">Country</label>
+                                    <input type="text" name="Country" class="form-control" id="checkInDate" required>
+                                </div>
+
+                                <!-- Check-out Date -->
+                                <div class="form-group col-md-4">
+                                    <label for="checkOutDate">City</label>
+                                    <input type="text" name="City" class="form-control" id="checkOutDate" required>
+                                </div>  <div class="form-group col-md-4">
+                                    <label for="checkOutDate">Zip/Postal Code</label>
+                                    <input type="text" name="ZipCode" class="form-control" id="checkOutDate" required>
+                                </div>
+                            </div>
+
+                        </div>
+                       
+              
+                       
+                        <button type="submit" class="btn btn-primary btn-block">Next: Review & Payment</button>
+                        <div class="h-captcha" data-sitekey="65162140-f168-4464-8894-805420629ed8"></div>
+                        <span id="hcaptchaError" style="display: none; color: red;">Please complete the captcha</span>
+            </form>
+            
+        </div>
+
+              
+                <div class="col-md-4">
+                    <div id="div_SummaryPartialView">
+
+                </div>
+               
+
+                    <div class="summaryPackage">
+                        <div class="containerStay">
+                            <h4 class="mb-3">Add to your stay</h4>
+
+                            <!-- Breakfast -->
+                            <div class="addon-card d-flex">
+                                <div class="icon-box">
+                                    <img src="https://img.icons8.com/ios-filled/50/breakfast.png" alt="Breakfast">
+                                </div>
+                                <div class="addon-content">
+                                    <div class="addon-title">Unlimited Breakfast <span class="addon-old-price">₹330</span><span class="addon-price">₹300</span></div>
+                                    <div class="addon-description">(per adult - per day)</div>
+                                    <div class="addon-description">Add breakfast with your stay</div>
+                                </div>
+                                <input type="checkbox" class="form-check-input">
+                            </div>
+
+                            <!-- Lunch -->
+                            <div class="addon-card d-flex">
+                                <div class="icon-box">
+                                    <img src="https://img.icons8.com/ios-filled/50/restaurant.png" alt="Lunch">
+                                </div>
+                                <div class="addon-content">
+                                    <div class="addon-title">Lunch <span class="addon-old-price">₹385</span><span class="addon-price">₹350</span></div>
+                                    <div class="addon-description">(per adult - per day)</div>
+                                    <div class="addon-description">Add lunch with your stay</div>
+                                </div>
+                                <input type="checkbox" class="form-check-input">
+                            </div>
+
+                            <!-- Towel -->
+                            <div class="addon-card d-flex">
+                                <div class="icon-box">
+                                    <img src="https://img.icons8.com/ios-filled/50/towel.png" alt="Towel">
+                                </div>
+                                <div class="addon-content">
+                                    <div class="addon-title">Towel <span class="addon-old-price">₹110</span><span class="addon-price">₹100</span></div>
+                                    <div class="addon-description">Add towel to your stay (Note - Towel is included with private rooms)</div>
+                                </div>
+                                <input type="checkbox" class="form-check-input">
+                            </div>
+
+                            <!-- Toilet Kit -->
+                            <div class="addon-card d-flex">
+                                <div class="icon-box">
+                                    <img src="https://img.icons8.com/ios-filled/50/toilet.png" alt="Toilet Kit">
+                                </div>
+                                <div class="addon-content">
+                                    <div class="addon-title">Toilet Kit <span class="addon-old-price">₹110</span><span class="addon-price">₹100</span></div>
+                                    <div class="addon-description">Add toilet kit to your stay (Note - Toilet kit is included with private rooms)</div>
+                                </div>
+                                <input type="checkbox" class="form-check-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+           
+         </div>
+
+   
+
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+
+        $(document).ready(function () {
+      
+        $('#emailInput').on('input', function () {
+            const email = $(this).val();
+                    const isValid = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email);
+            $('#sendCodeBtn').toggle(isValid);
+        });
+
+        
+        $('#sendCodeBtn').on('click', function () {
+            const email = $('#emailInput').val();
+
+            $.post('/Home/SendVerificationCode', { email: email }, function (response) {
+                if (response.success) {
+                    $('#emailVerificationStatus').text('Verification code sent to your email.');
+                    $('#emailCodeInput, #verifyCodeBtn').show();
+                } else {
+                    $('#emailVerificationStatus').text('Failed to send code. Try again.');
+                }
+            });
+        });
+
+        // Verify the code
+        $('#verifyCodeBtn').on('click', function () {
+            const email = $('#emailInput').val();
+            const code = $('#emailCodeInput').val();
+
+            $.post('/Home/VerifyEmailCode', { email: email, code: code }, function (response) {
+                if (response.success) {
+                    $('#emailVerificationStatus').text('Email verified ✅').css('color', 'green');
+                    $('#sendCodeBtn, #verifyCodeBtn, #emailCodeInput').hide();
+                } else {
+                    $('#emailVerificationStatus').text('Invalid code ❌').css('color', 'red');
+                }
+            });
+        });
+    });
+
+        $( document ).ready(function() {
+         LoadSummaryPartialFromSession();
+        });
+
+         function LoadSummaryPartialFromSession() {
+    $.ajax({
+        type: "GET",
+        url: '/Home/LoadSummaryFromSession',
+        cache: false,
+        dataType: "html",
+        success: function (data) {
+            $('#div_SummaryPartialView').html(data);
+        },
+        error: function (result) {
+            console.error("Error loading summary from session", result.responseText);
+        }
+    });
+}
+
+        $('#bookingForm').on('submit', function (e) {
+        e.preventDefault();
+
+       
+        const hcaptchaResponse = hcaptcha.getResponse();
+        if (!hcaptchaResponse) {
+            $('#hcaptchaError').show();
+            return;
+        }
+
+        $('#hcaptchaError').hide();
+
+        
+        let isValid = true;
+        $('#bookingForm input[required], #bookingForm textarea[required]').each(function () {
+                   const age = parseInt($(this).val(), 10);
+            if (isNaN(age) || age < 14) {
+                $(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            return;
+        }
+
+       
+        const formData = $('#bookingForm').serialize();
+
+        $.ajax({
+            url: '/Home/SubmitBooking',
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    alert("Something went wrong!");
+                }
+            },
+            error: function () {
+                alert("Server error. Please try again.");
+            }
+        });
+    });
+
+
+
+      document.getElementById('nextStep').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    const hcaptchaResponse = hcaptcha.getResponse();
+
+    if (!hcaptchaResponse) {
+        document.getElementById('hcaptchaError').style.display = 'block';
+        return;
+    }
+
+    document.getElementById('hcaptchaError').style.display = 'none';
+   // window.location.href = '@Url.Action("ReviewPayment", "Home")';
+});
+       
+      
+
+         let captchaTotal = 0;
+
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaTotal = num1 + num2;
+            $('#captchaQuestion').text(`What is ${num1} + ${num2}?`);
+        }
+
+                function isCaptchaValid() {
+            const userAnswer = parseInt($('#captchaAnswer').val(), 10);
+            return userAnswer === captchaTotal;
+        }
+    </script>
+
+

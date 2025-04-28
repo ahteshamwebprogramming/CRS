@@ -1,37 +1,62 @@
 ﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
 <h2 class="mb-3">Summary</h2>
 <div class="booking-container">
+
     <div class="header">
         <div class="text-start">
-            CHECK IN <br>
+            CHECK IN <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckInDate?.ToString("dd MMM, yyyy")</span>
         </div>
-        <div class="nights">@Model?.SummaryInputDTO?.NoOfRooms Night</div>
+        <div class="nights">@Model?.SummaryInputDTO?.NoOfNights Night</div>
+        
         <div class="text-end">
-            CHECK OUT <br>
+            CHECK OUT <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
         </div>
     </div>
 
-    <div class="room-title">@Model?.RoomTypeDTO?.Rtype</div>
-    <div class="price-details">
-        ₹379.60 /Night x 1 (1 Guest) <span class="amount">₹379.60</span>
-    </div>
+    @if (Model?.SummaryInputDTO?.SelectedRooms?.Any() == true)
+    {
+        decimal totalRoomCharges = 0;
+        decimal taxRate = 0.12m; 
+        foreach (var room in Model.SummaryInputDTO.SelectedRooms)
+        {
+            decimal pricePerNight =  379.60m;
+            int nights = Model.SummaryInputDTO.NoOfNights ?? 1;
+            int quantity = room.NoOfRooms;
 
-    <hr>
+            decimal roomTotal = pricePerNight * nights * quantity;
+            totalRoomCharges += roomTotal;
 
-    <div class="price-details">
-        Total Room Charges <span class="amount">₹379.60</span>
-    </div>
-    <div class="price-details">
-        Total Taxes (GST) <span class="amount">₹45.55</span>
-    </div>
+            <div class="room-title">@room.Rtype</div>
+            <div class="price-details">
+                ₹@pricePerNight /Night x @quantity room(s) x @nights night(s)
+                <span class="amount">₹@roomTotal.ToString("0.00")</span>
+            </div>
+            <p><strong>Guest:</strong> x @room.Adults Adult(s), @room.Children Children(s)</p>
+            <hr />
+        }
 
-    <hr>
+        var tax = totalRoomCharges * taxRate;
+        var grandTotal = totalRoomCharges + tax;
 
-    <div class="total">
-        Total Price <span class="amount">₹425.15</span>
-    </div>
+        <div class="price-details">
+            Total Room Charges <span class="amount">₹@totalRoomCharges.ToString("0.00")</span>
+        </div>
+        <div class="price-details">
+            Total Taxes (GST) <span class="amount">₹@tax.ToString("0.00")</span>
+        </div>
 
-    <a href="booking.html" class="button">Review booking</a>
+        <hr />
+
+        <div class="total">
+            Total Price <span class="amount">₹@grandTotal.ToString("0.00")</span>
+        </div>
+    }
+    else
+    {
+        <p>No room selected yet.</p>
+    }
+
+    <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a>
 </div>

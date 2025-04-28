@@ -1,9 +1,11 @@
 
 using CRS.Core.Repository;
+using CRS.Infrastructure.Interface;
 using CRS.Infrastruture.Helper;
 using CRS.Services.Configurations;
 using CRS.Services.DBContext;
 using CRS.Services.Helper;
+using CRS.Services.Services;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -15,6 +17,7 @@ builder.Services.AddControllers().AddControllersAsServices();
 builder.Services.AddScoped<DapperDBContext>();
 builder.Services.AddScoped<DapperEHRMSDBContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAutoMapper(typeof(MapperInitializer));
 builder.Services.AddHttpContextAccessor();
@@ -60,6 +63,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 //For Sessions
 app.UseSession();
+builder.Services.AddDistributedMemoryCache();
 //For Sessions end
 app.MapRazorPages();
 app.UseMiddleware<ClientIpMiddleware>();
