@@ -1,14 +1,12 @@
 ﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
 <h2 class="mb-3">Summary</h2>
 <div class="booking-container">
-
     <div class="header">
         <div class="text-start">
             CHECK IN <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckInDate?.ToString("dd MMM, yyyy")</span>
         </div>
         <div class="nights">@Model?.SummaryInputDTO?.NoOfNights Night</div>
-        
         <div class="text-end">
             CHECK OUT <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
@@ -18,10 +16,11 @@
     @if (Model?.SummaryInputDTO?.SelectedRooms?.Any() == true)
     {
         decimal totalRoomCharges = 0;
-        decimal taxRate = 0.12m; 
+        decimal taxRate = 0.05m;
+
         foreach (var room in Model.SummaryInputDTO.SelectedRooms)
         {
-            decimal pricePerNight =  379.60m;
+            decimal pricePerNight = room.Price;
             int nights = Model.SummaryInputDTO.NoOfNights ?? 1;
             int quantity = room.NoOfRooms;
 
@@ -33,7 +32,7 @@
                 ₹@pricePerNight /Night x @quantity room(s) x @nights night(s)
                 <span class="amount">₹@roomTotal.ToString("0.00")</span>
             </div>
-            <p><strong>Guest:</strong> x @room.Adults Adult(s), @room.Children Children(s)</p>
+            <p><strong>Guest:</strong> @room.Adults Adult(s), @room.Children Children(s)</p>
             <hr />
         }
 

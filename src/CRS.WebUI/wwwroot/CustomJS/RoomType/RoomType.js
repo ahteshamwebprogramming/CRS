@@ -111,33 +111,61 @@ function GetDates() {
 
 
 
-function AddRoom(RoomType) {
-
-    debugger
+function AddRoom(RoomType, Price) {
+    // Increment room count
     if (!RoomSelections[RoomType]) {
-        RoomSelections[RoomType] = 1;
+        RoomSelections[RoomType] = {
+            count: 1,
+            price: Price,
+            Pax: { Adults: tempPax.Adults, Children: tempPax.Children }
+        };
     } else {
-        RoomSelections[RoomType]++;
+        RoomSelections[RoomType].count++;
+        RoomSelections[RoomType].price = Price;
     }
 
-    
-    $("#RoomCount_" + RoomType).text(RoomSelections[RoomType]);
+    // Update UI
+    const roomElement = document.querySelector(`.roominfo_selector input[name="RoomTypeId"][value="${RoomType}"]`)?.closest('.col-md-8');
+    if (roomElement) {
+        const totalGuests = tempPax.Adults + tempPax.Children;
+        const guestText = roomElement.querySelector('.text-muted.mb-1');
+        if (guestText) {
+            guestText.innerHTML = `<i class="bi bi-person"></i> x ${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+        }
+    }
 
-    
+    $("#RoomCount_" + RoomType).text(RoomSelections[RoomType].count);
+    updatePaxData();
     SummaryPartialView();
 }
-
-function AddRoombtn(RoomType) {
+function AddRoombtn(RoomType, Price) {
+    // Use item.Id as RoomType
     if (!RoomSelections[RoomType]) {
-        RoomSelections[RoomType] = 1;
+        RoomSelections[RoomType] = {
+            count: 1,
+            price: Price,
+            Pax: { Adults: tempPax.Adults, Children: tempPax.Children }
+        };
+    } else {
+        RoomSelections[RoomType].count = 1; // Reset to 1 to avoid duplicates
+        RoomSelections[RoomType].price = Price;
+        RoomSelections[RoomType].Pax = { Adults: tempPax.Adults, Children: tempPax.Children };
     }
 
-    
-    $(`#RoomCount_${RoomType}`).text(RoomSelections[RoomType]);
+    // Update UI
+    const roomElement = document.querySelector(`.roominfo_selector input[name="RoomTypeId"][value="${RoomType}"]`)?.closest('.col-md-8');
+    if (roomElement) {
+        const totalGuests = tempPax.Adults + tempPax.Children;
+        const guestText = roomElement.querySelector('.text-muted.mb-1');
+        if (guestText) {
+            guestText.innerHTML = `<i class="bi bi-person"></i> x ${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+        }
+    }
+
+    $(`#RoomCount_${RoomType}`).text(RoomSelections[RoomType].count);
     $(`.counter-container [onclick*="${RoomType}"]`).closest('.counter-container').show();
     $(`.add-bed-btn[onclick*="${RoomType}"]`).hide();
 
-    
     updatePaxData();
     SummaryPartialView();
 }
@@ -148,21 +176,23 @@ function updateSummary() {
 
 function SubRoom(RoomType) {
     if (RoomSelections[RoomType]) {
-        RoomSelections[RoomType]--;
+        RoomSelections[RoomType].count--;
 
-        if (RoomSelections[RoomType] <= 0) {
+        if (RoomSelections[RoomType].count <= 0) {
             delete RoomSelections[RoomType];
-           
-            $(".counter-container [onclick*='" + RoomType + "']").closest(".counter-container").hide();
-            $(".add-bed-btn[onclick*='" + RoomType + "']").show();
+            PaxData = PaxData.filter(p => p.RoomNumber !== parseInt(RoomType));
+
+            $(`.counter-container [onclick*="${RoomType}"]`).closest(".counter-container").hide();
+            $(`.add-bed-btn[onclick*="${RoomType}"]`).show();
         } else {
-            $("#RoomCount_" + RoomType).text(RoomSelections[RoomType]);
+            $("#RoomCount_" + RoomType).text(RoomSelections[RoomType].count);
         }
 
+        updatePaxData();
+        updateSummaryDisplay();
         SummaryPartialView();
     }
 }
-
 function SummaryPartialView() {
     const inputDTO = {
         RoomSelections: RoomSelections,
@@ -170,9 +200,7 @@ function SummaryPartialView() {
         CheckInDate: currentDate.toISOString().split('T')[0],
         CheckOutDate: nextDate.toISOString().split('T')[0]
     };
-
-    console.log("Sending to server:", JSON.stringify(inputDTO));
-
+    console.log(inputDTO);
     $.ajax({
         type: "POST",
         url: '/Home/SummaryPartialView',
@@ -187,18 +215,22 @@ function SummaryPartialView() {
     });
 }
 
+
 function updatePaxData() {
     PaxData = [];
-    document.querySelectorAll("#rooms .room").forEach((room, index) => {
-        PaxData.push({
-            RoomNumber: index + 1,
-            Adults: parseInt(room.querySelector(".adults").innerText),
-            Children: parseInt(room.querySelector(".children").innerText)
-        });
+    Object.keys(RoomSelections).forEach(roomType => {
+        if (RoomSelections[roomType]) {
+            for (let i = 0; i < RoomSelections[roomType].count; i++) {
+                PaxData.push({
+                    RoomNumber: parseInt(roomType),
+                    Adults: RoomSelections[roomType].Pax.Adults,
+                    Children: RoomSelections[roomType].Pax.Children
+                });
+            }
+        }
     });
+    console.log('Updated PaxData:', PaxData); // Debug
 }
-
-
 function PackagesDateWisePartialView() {
     var inputDTO = {};
     inputDTO.CheckInDate = currentDate.toISOString().split('T')[0];

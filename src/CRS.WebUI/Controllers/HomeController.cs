@@ -77,29 +77,37 @@ namespace CRS.WebUI.Controllers
 
             if (inputDTO.RoomSelections != null && inputDTO.RoomSelections.Any())
             {
-                sessionInputDTO.SelectedRooms.Clear(); // Reset for fresh summary
+                sessionInputDTO.SelectedRooms.Clear(); 
 
-                var roomTypeIds = inputDTO.RoomSelections.Keys.ToList();
-
-                for (int i = 0; i < roomTypeIds.Count; i++)
+                foreach (var key in inputDTO.RoomSelections.Keys)
                 {
-                    var key = roomTypeIds[i];
-
                     if (int.TryParse(key, out int roomId))
                     {
                         var res = await _roomsAPIController.GetSummary(new SummaryInputDTO { RoomType = roomId });
                         var room = (res as ObjectResult)?.Value as RoomTypeDTO;
-
                         if (room != null)
                         {
-                            room.NoOfRooms = inputDTO.RoomSelections[key];
+                            var selection = inputDTO.RoomSelections[key];
+                            room.NoOfRooms = selection.Count;
+                            room.PaxCount = selection.Count;
+                            room.Price = selection.Price;
 
-                            // Use Pax info by index
-                            if (inputDTO.PaxPerRoom != null && i < inputDTO.PaxPerRoom.Count)
+                           
+                            if (inputDTO.PaxPerRoom != null)
                             {
-                                var pax = inputDTO.PaxPerRoom[i];
-                                room.Adults = pax.Adults;
-                                room.Children = pax.Children;
+                                
+                                var pax = inputDTO.PaxPerRoom.FirstOrDefault(p =>p.RoomNumber.ToString() == key ||  p.RoomNumber == roomId);
+                                if (pax != null)
+                                {
+                                    room.Adults = pax.Adults;
+                                    room.Children = pax.Children;
+                                }
+                                else
+                                {
+                                    
+                                    room.Adults = 1;
+                                    room.Children = 0;
+                                }
                             }
 
                             sessionInputDTO.SelectedRooms.Add(room);
@@ -111,7 +119,6 @@ namespace CRS.WebUI.Controllers
             }
 
             sessionInputDTO.PaxPerRoom = inputDTO.PaxPerRoom;
-
             HttpContext.Session.SetString("Summary", JsonConvert.SerializeObject(sessionInputDTO));
 
             var viewModel = new SummaryViewModel
@@ -170,9 +177,7 @@ namespace CRS.WebUI.Controllers
         {
             var summaryJson = HttpContext.Session.GetString("Summary");
             int totalPax = paxData.Sum(p => p.Adults + p.Children);
-
             TempData["TotalPax"] = totalPax;
-
             return Json(new { redirectUrl = Url.Action("Booking") });
         }
 
@@ -185,7 +190,6 @@ namespace CRS.WebUI.Controllers
                 
                 TempData.Keep("TotalPax");
             }
-
             return View();
         }
 
@@ -193,27 +197,21 @@ namespace CRS.WebUI.Controllers
         public async Task<IActionResult> LoadSummaryFromSession()
         {
             var summaryJson = HttpContext.Session.GetString("Summary");
-
             if (string.IsNullOrEmpty(summaryJson))
                 return BadRequest("Summary not found in session.");
 
             var inputDTO = JsonConvert.DeserializeObject<SummaryInputDTO>(summaryJson);
-
-            
             SummaryViewModel dto = new SummaryViewModel();
             dto.SummaryInputDTO = inputDTO;
-
             if (inputDTO.CheckInDate.HasValue && inputDTO.CheckOutDate.HasValue)
             {
                 inputDTO.NoOfNights = (inputDTO.CheckOutDate.Value - inputDTO.CheckInDate.Value).Days;
             }
-
             var res = await _roomsAPIController.GetSummary(inputDTO);
             if (res != null && ((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200)
             {
                 dto.RoomTypeDTO = (RoomTypeDTO?)((Microsoft.AspNetCore.Mvc.ObjectResult)res).Value;
             }
-
             return PartialView("_index/_summary", dto);
         }
         [HttpPost]
@@ -244,10 +242,8 @@ namespace CRS.WebUI.Controllers
             var code = new Random().Next(100000, 999999).ToString();
             HttpContext.Session.SetString("VerificationCode", code);
             HttpContext.Session.SetString("VerificationEmail", email);
-
             var subject = "Your Email Verification Code";
             var body = $"Your verification code is: {code}";
-
             try
             {
                 await _emailService.SendAsync(email, subject, body);
@@ -255,10 +251,8 @@ namespace CRS.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                
                 return Json(new { success = false, error = ex.Message });
             }
-          
         }
 
         [HttpPost]

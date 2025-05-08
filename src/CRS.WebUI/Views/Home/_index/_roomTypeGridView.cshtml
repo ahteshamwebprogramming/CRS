@@ -91,11 +91,11 @@
                                         <input type="hidden" value="@item.Id" name="RoomTypeId" />
                                         <input type="hidden" value="@i" name="RecordId" />
 
-                                        <button class="btn btn-dark add-bed-btn" onclick="AddRoombtn(@item.Id)">Add Room</button>
+                                        <button class="btn btn-dark add-bed-btn" onclick="AddRoombtn(@item.Id,@item?.OfferedPrice)">Add Room</button>
                                         <div class="counter-container  align-items-center justify-content-center ">
                                             <button class="btn btn-danger me-2 minus-btn" onclick="SubRoom(@item.Id)">-</button>
                                             <span class="fs-5 fw-bold bed-count" id="RoomCount_@item.Id">1</span>
-                                            <button class="btn btn-success ms-2 plus-btn" onclick="AddRoom(@item.Id)">+</button>
+                                            <button class="btn btn-success ms-2 plus-btn" onclick="AddRoom(@item.Id,@item?.OfferedPrice)">+</button>
                                         </div>
                                     </div>
                                 </div>

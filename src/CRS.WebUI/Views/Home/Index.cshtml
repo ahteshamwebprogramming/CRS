@@ -154,37 +154,37 @@
                 </div>
 
                 <div class="booking-field">
-                    <i class="icon2 fa-solid fa-people-group"></i>
-                    <button onclick="togglePopup()" class="person_filled_button" id="selectionSummary">1 Adult, 0 Child</button>
-                    <!-- Popup Content -->
-                    <div id="popup" class="popup-container">
-                        <div class="header">
-                            <span>Accommodation & Pax</span>
-                            <button class="close-btn" onclick="togglePopup()">Close</button>
-                        </div>
+                <i class="icon2 fa-solid fa-people-group"></i>
+                <button onclick="togglePopup()" class="person_filled_button" id="selectionSummary">1 Adult, 0 Child</button>
 
-                        <div id="rooms">
-                            <div class="room">
-                                <span>Room 1</span>
-                                <div class="counter">
-                                    <span class="userPerson">Adults</span>
-                                    <button onclick="updateCounter(this, 'adults', -1)">−</button>
-                                    <span class="adults">1</span>
-                                    <button onclick="updateCounter(this, 'adults', 1)">+</button>
-                                </div>
-                                <div class="counter">
-                                    <span class="userPerson">Children</span>
-                                    <button onclick="updateCounter(this, 'children', -1)">−</button>
-                                    <span class="children">0</span>
-                                    <button onclick="updateCounter(this, 'children', 1)">+</button>
-                                </div>
+                <div id="popup" class="popup-container">
+                    <div class="header">
+                        <span>Accommodation & Pax</span>
+                        <button class="close-btn" onclick="togglePopup()">Close</button>
+                    </div>
+
+                    <div id="rooms">
+                        <div class="room" data-room-type="1">
+                            <span>Room 1</span>
+                            <div class="counter">
+                                <span class="userPerson">Adults</span>
+                                <button onclick="updateCounter(this, 1, 'adults', -1)">−</button>
+                                <span class="adults">1</span>
+                                <button onclick="updateCounter(this, 1, 'adults', 1)">+</button>
+                            </div>
+                            <div class="counter">
+                                <span class="userPerson">Children</span>
+                                <button onclick="updateCounter(this, 1, 'children', -1)">−</button>
+                                <span class="children">0</span>
+                                <button onclick="updateCounter(this, 1, 'children', 1)">+</button>
                             </div>
                         </div>
-
-                        <div class="add-room" onclick="addRoom()">
-                            <button>+</button> Add Room
-                        </div>
                     </div>
+
+                    <div class="add-room" onclick="addRoom()">
+                        <button>+</button> Add Room
+                    </div>
+                </div>
 
                 </div>
 
@@ -206,58 +206,10 @@
                 </div>
                    
                             <div class="containerStay">
-                                <h4 class="mb-3">Add to your stay</h4>
-
-                                <!-- Breakfast -->
-                                <div class="addon-card d-flex">
-                                    <div class="icon-box">
-                                        <img src="https://img.icons8.com/ios-filled/50/breakfast.png" alt="Breakfast">
-                                    </div>
-                                    <div class="addon-content">
-                                        <div class="addon-title">Unlimited Breakfast <span class="addon-old-price">₹330</span><span class="addon-price">₹300</span></div>
-                                        <div class="addon-description">(per adult - per day)</div>
-                                        <div class="addon-description">Add breakfast with your stay</div>
-                                    </div>
-                                    <input type="checkbox" class="form-check-input">
-                                </div>
-
-                                <!-- Lunch -->
-                                <div class="addon-card d-flex">
-                                    <div class="icon-box">
-                                        <img src="https://img.icons8.com/ios-filled/50/restaurant.png" alt="Lunch">
-                                    </div>
-                                    <div class="addon-content">
-                                        <div class="addon-title">Lunch <span class="addon-old-price">₹385</span><span class="addon-price">₹350</span></div>
-                                        <div class="addon-description">(per adult - per day)</div>
-                                        <div class="addon-description">Add lunch with your stay</div>
-                                    </div>
-                                    <input type="checkbox" class="form-check-input">
-                                </div>
-
-                                <!-- Towel -->
-                                <div class="addon-card d-flex">
-                                    <div class="icon-box">
-                                        <img src="https://img.icons8.com/ios-filled/50/towel.png" alt="Towel">
-                                    </div>
-                                    <div class="addon-content">
-                                        <div class="addon-title">Towel <span class="addon-old-price">₹110</span><span class="addon-price">₹100</span></div>
-                                        <div class="addon-description">Add towel to your stay (Note - Towel is included with private rooms)</div>
-                                    </div>
-                                    <input type="checkbox" class="form-check-input">
-                                </div>
-
-                                <!-- Toilet Kit -->
-                                <div class="addon-card d-flex">
-                                    <div class="icon-box">
-                                        <img src="https://img.icons8.com/ios-filled/50/toilet.png" alt="Toilet Kit">
-                                    </div>
-                                    <div class="addon-content">
-                                        <div class="addon-title">Toilet Kit <span class="addon-old-price">₹110</span><span class="addon-price">₹100</span></div>
-                                        <div class="addon-description">Add toilet kit to your stay (Note - Toilet kit is included with private rooms)</div>
-                                    </div>
-                                    <input type="checkbox" class="form-check-input">
-                                </div>
-                            </div>
+                    <div id="div_PackagesPartialView">
+                    @Html.Partial("_index/_packages")
+                    </<div>
+                           
                         </div>
                     </div><div class="toggle-btn toggleButton" onclick="toggleRows2(this)">
                         <img src="~/images/arrowbtn.svg" width="24">
@@ -285,7 +237,26 @@
     <script src="~/customjs/roomtype/roomtype.js"></script>
     <script src="~/customjs/roomtype/availabilitycalender.js"></script>
     <script type="text/javascript">
+            function PackagesPartialView() {
 
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '/Home/PackagesPartialView',
+            //data: JSON.stringify(inputDTO),
+            cache: false,
+            dataType: "html",
+            success: function (data, textStatus, jqXHR) {
+                $('#div_PackagesPartialView').html(data);
+            },
+            error: function (result) {
+                //UnblockUI();
+                $erroralert("Transaction Failed!", result.responseText);
+            }
+        });
+
+
+    }
         let currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + 7);  // 7 days in the future
 
@@ -310,11 +281,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="~/customjs/roomtype/roomtype.js"></script>
     <script>
-            let RoomSelections = {};
-    let PaxData = {
-        Adults: 1,
-        Children: 0
-    };
+               
                 
         function submitPaxDataAjax() {
             const rooms = document.querySelectorAll("#rooms .room");
@@ -391,60 +358,109 @@
     
 
     <script>
-           let roomCount = 1;
-
-
-    function togglePopup() {
+                    let RoomSelections = {};
+    let PaxData = []; // Use PaxPerRoom if needed
+    let tempPax = { Adults: 1, Children: 0 }; // Store pax before room selection
+    let roomCount = 0; // Track rooms in popup
+        
+       function togglePopup() {
         const popup = document.getElementById("popup");
         popup.style.display = (popup.style.display === "block") ? "none" : "block";
     }
 
 
-          function updateCounter(button, type, change) {
-        const roomElement = button.closest('.room');
-        const adultSpan = roomElement.querySelector('.adults');
-        const childSpan = roomElement.querySelector('.children');
+           function updateCounter(button, roomType, type, change) {
+        console.log(`updateCounter: roomType=${roomType}, type=${type}, change=${change}`); // Debug
 
-        let adults = parseInt(adultSpan.innerText);
-        let children = parseInt(childSpan.innerText);
+        // Update tempPax (popup uses roomType=1 or dynamic roomCount, not item.Id)
+        let adults = tempPax.Adults;
+        let children = tempPax.Children;
 
         if (type === 'adults') {
             let newAdults = adults + change;
-            if (newAdults < 1 || newAdults > 3 || (newAdults + children > 3)) return;
-            adultSpan.innerText = newAdults;
-        }
-
-        if (type === 'children') {
+            if (newAdults < 1 || newAdults > 3 || (newAdults + children > 3)) {
+                console.warn(`Invalid adult change: newAdults=${newAdults}`);
+                return;
+            }
+            tempPax.Adults = newAdults;
+        } else if (type === 'children') {
             let newChildren = children + change;
-            if (newChildren < 0 || newChildren > 2 || (adults + newChildren > 3)) return;
-            childSpan.innerText = newChildren;
+            if (newChildren < 0 || newChildren > 2 || (adults + newChildren > 3)) {
+                console.warn(`Invalid child change: newChildren=${newChildren}`);
+                return;
+            }
+            tempPax.Children = newChildren;
         }
 
+        // Update UI in popup for all rooms
+        document.querySelectorAll('#rooms .room').forEach(room => {
+            const adultSpan = room.querySelector('.adults');
+            const childSpan = room.querySelector('.children');
+            if (adultSpan) adultSpan.textContent = tempPax.Adults;
+            if (childSpan) childSpan.textContent = tempPax.Children;
+        });
+
+        // Update RoomSelections if room is selected
+        Object.keys(RoomSelections).forEach(id => {
+            RoomSelections[id].Pax.Adults = tempPax.Adults;
+            RoomSelections[id].Pax.Children = tempPax.Children;
+
+            // Update guest count in room HTML
+            const roomElement = document.querySelector(`.roominfo_selector input[name="RoomTypeId"][value="${id}"]`)?.closest('.col-md-8');
+            if (roomElement) {
+                const totalGuests = tempPax.Adults + tempPax.Children;
+                const guestText = roomElement.querySelector('.text-muted.mb-1');
+                if (guestText) {
+                    guestText.innerHTML = `<i class="bi bi-person"></i> x ${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+                }
+            }
+        });
+
+        console.log(`Updated tempPax:`, tempPax); // Debug
         updatePaxData();
         updateSummaryDisplay();
-
+        SummaryPartialView();
+    }
        
-        if (Object.keys(RoomSelections).length > 0) {
-            SummaryPartialView();
+        function updatePaxPerRoom(roomId, adults, children) {
+      
+        const existingIndex = PaxPerRoom.findIndex(p => p.RoomNumber == roomId);
+
+        if (existingIndex >= 0) {
+            PaxPerRoom[existingIndex].Adults = adults;
+            PaxPerRoom[existingIndex].Children = children;
+        } else {
+            PaxPerRoom.push({
+                RoomNumber: roomId,
+                Adults: adults,
+                Children: children
+            });
         }
     }
 
-        function updateSummaryDisplay() {
-        let totalAdults = 0;
-        let totalChildren = 0;
+          function updateSummaryDisplay() {
+          let totalAdults = 0;
+           let totalChildren = 0;
 
-        PaxData.forEach(room => {
-            totalAdults += room.Adults;
-            totalChildren += room.Children;
+        PaxData.forEach(pax => {
+            totalAdults += pax.Adults;
+            totalChildren += pax.Children;
         });
 
         const summaryText = `${totalAdults} Adult${totalAdults !== 1 ? 's' : ''}, ${totalChildren} Child${totalChildren !== 1 ? 'ren' : ''}`;
         $("#selectionSummary").text(summaryText);
     }
-        function updateRoomSelectionsWithPax() {
-        Object.keys(RoomSelections).forEach(roomTypeId => {
-            RoomSelections[roomTypeId].Adults = PaxData.Adults;
-            RoomSelections[roomTypeId].Children = PaxData.Children;
+
+    function updateRoomSelectionsWithPax() {
+        
+        PaxData.forEach((pax, index) => {
+            const roomType = index + 1;
+            if (RoomSelections[roomType]) {
+                RoomSelections[roomType].Pax = {
+                    Adults: pax.Adults,
+                    Children: pax.Children
+                };
+            }
         });
 
       
@@ -452,51 +468,76 @@
             SummaryPartialView();
         }
     }
-    
-    function addRoom() {
-        if (roomCount >= 5) return;
-        roomCount++;
 
-        const roomsDiv = document.getElementById('rooms');
+          function addRoom() {
+        roomCount++;
+        const roomsContainer = document.getElementById("rooms");
         const newRoom = document.createElement('div');
         newRoom.className = 'room';
+        newRoom.setAttribute('data-room-type', roomCount);
         newRoom.innerHTML = `
             <span>Room ${roomCount}</span>
             <div class="counter">
                 <span class="userPerson">Adults</span>
-                <button onclick="updateCounter(this, 'adults', -1)">−</button>
-                <span class="adults">1</span>
-                <button onclick="updateCounter(this, 'adults', 1)">+</button>
+                <button class="adult-minus">−</button>
+                <span class="adults">${tempPax.Adults}</span>
+                <button class="adult-plus">+</button>
             </div>
             <div class="counter">
                 <span class="userPerson">Children</span>
-                <button onclick="updateCounter(this, 'children', -1)">−</button>
-                <span class="children">0</span>
-                <button onclick="updateCounter(this, 'children', 1)">+</button>
+                <button class="child-minus">−</button>
+                <span class="children">${tempPax.Children}</span>
+                <button class="child-plus">+</button>
             </div>
         `;
-        roomsDiv.appendChild(newRoom);
-        updateSummary();
+
+        roomsContainer.appendChild(newRoom);
+
+        // Bind events to counters
+        newRoom.querySelectorAll('.adult-minus, .adult-plus, .child-minus, .child-plus').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.classList.contains('adult-minus') || btn.classList.contains('adult-plus') ? 'adults' : 'children';
+                const change = btn.classList.contains('adult-minus') || btn.classList.contains('child-minus') ? -1 : 1;
+                updateCounter(btn, roomCount, type, change);
+            });
+        });
+
+        console.log(`Added popup room ${roomCount}`); // Debug
+        updateSummaryDisplay();
     }
 
-    // Update the selection summary text
-    function updateSummary() {
+
+        document.addEventListener("click", function(event) {
+        const popup = document.getElementById("popup");
+        const buttons = document.querySelectorAll(".person_filled_button");
+
+        if (!popup.contains(event.target) && ![...buttons].some(btn => btn.contains(event.target))) {
+            popup.style.display = "none";
+        }
+    });
+
+
+             function updateSummaryDisplay() {
         let totalAdults = 0;
         let totalChildren = 0;
 
-        document.querySelectorAll('.adults').forEach(span => {
-            totalAdults += parseInt(span.innerText);
-        });
-        document.querySelectorAll('.children').forEach(span => {
-            totalChildren += parseInt(span.innerText);
-        });
+        // Use PaxData if rooms selected, else tempPax
+        if (PaxData.length > 0) {
+            PaxData.forEach(pax => {
+                totalAdults += pax.Adults;
+                totalChildren += pax.Children;
+            });
+        } else {
+            totalAdults = tempPax.Adults;
+            totalChildren = tempPax.Children;
+        }
 
-        document.getElementById("selectionSummary").innerText =
-            `${totalAdults} Adult${totalAdults > 1 ? 's' : ''}, ${totalChildren} Child${totalChildren > 1 ? 'ren' : ''}`;
+        const summaryText = `${totalAdults} Adult${totalAdults !== 1 ? 's' : ''}, ${totalChildren} Child${totalChildren !== 1 ? 'ren' : ''}`;
+        $("#selectionSummary").text(summaryText);
+        console.log(`Summary: ${summaryText}`); // Debug
     }
-
     // Close popup when clicking outside
-    document.addEventListener("click", function (event) {
+      document.addEventListener("click", function(event) {
         const popup = document.getElementById("popup");
         const buttons = document.querySelectorAll(".person_filled_button");
 

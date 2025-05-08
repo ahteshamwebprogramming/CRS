@@ -13,5 +13,7 @@ namespace CRS.Infrastructure.ViewModels.Summary
         public RoomTypeDTO RoomType { get; set; }
         public int Quantity { get; set; }
         public decimal Subtotal { get; set; }
+        public int Count { get; set; }
+        public decimal Price { get; set; }
     }
 }

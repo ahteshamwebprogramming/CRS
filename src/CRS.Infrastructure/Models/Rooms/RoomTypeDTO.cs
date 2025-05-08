@@ -18,4 +18,5 @@ public class RoomTypeDTO
         get => _paxCount;
         set => _paxCount = value > 3 ? 3 : value; 
     }
+    public decimal Price { get; set; }
 }
