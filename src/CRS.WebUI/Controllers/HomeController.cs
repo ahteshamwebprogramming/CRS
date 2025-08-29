@@ -174,15 +174,11 @@ namespace CRS.WebUI.Controllers
                         roomDetails.RoomTypeName = room?.Rtype;
                     }
                     item.RoomDetails = roomDetails;
-                    // Update Selected Services
-                    if (inputDTO.SelectedServices != null && inputDTO.SelectedServices.Any())
-                    {
-                        item.SelectedServices = inputDTO.SelectedServices;
-                    }
+                    item.SelectedServices = item.SelectedServices ?? new List<ServiceDTO>();
                 }
             }
             sessionInputDTO.RoomSelectionList = inputDTO.RoomSelectionList;
-
+            sessionInputDTO.SelectedServices = inputDTO.SelectedServices ?? new List<ServiceDTO>();
 
             HttpContext.Session.SetString("Summary1", JsonConvert.SerializeObject(sessionInputDTO));
 

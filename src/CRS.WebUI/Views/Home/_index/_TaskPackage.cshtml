@@ -22,7 +22,8 @@
                                     @item.TaskName
 
                                     <span class="addon-price">₹@item.Rate</span>
-                                    <span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.TaskName', @item.Rate)" /></span>
+                                    @* <span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.TaskName', @item.Rate)" /></span>*@
+                                    <span class="checkbox_a"><input type="checkbox" data-service="@item.TaskName" onchange="toggleService(this, '@item.TaskName', @item.Rate)" /></span>
                                 </p>
 
                             </div>

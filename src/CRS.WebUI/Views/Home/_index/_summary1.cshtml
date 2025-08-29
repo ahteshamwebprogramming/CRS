@@ -63,6 +63,7 @@
                                 <div class="service-details">
                                     <p>@service.Service</p>
                                     <span class="amount">$@service.Price.ToString("0.00")</span>
+                                    <button type="button" class="btn btn-link p-0 text-danger" onclick="removeService(@item.RoomNumber, '@service.Service')">Remove</button>
                                 </div>
                             }
                         </div>

@@ -22,7 +22,8 @@
                                     @item.Service
 
                                     <span class="addon-price">$@item.Price</span>
-                                    <span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.Service', @item.Price)" /></span>
+                                    @*<span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.Service', @item.Price)" /></span>*@
+                                    <span class="checkbox_a"><input type="checkbox" data-service="@item.Service" onchange="toggleService(this, '@item.Service', @item.Price)" /></span>
                                 </p>
 
                             </div>

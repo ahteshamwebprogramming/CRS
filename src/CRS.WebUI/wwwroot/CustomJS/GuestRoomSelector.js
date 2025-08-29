@@ -7,7 +7,7 @@ let RoomSelectionList = [];
 let RoomSelectionDTO1 = {};
 
 $(document).ready(function () {
-    RoomSelectionList.push({ RoomNumber: 1, Adults: 1, Children: 0 });
+    RoomSelectionList.push({ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] });
 });
 
 // Improved popup toggle function
@@ -72,7 +72,7 @@ function updateCounter(button, roomId, type, change) {
         let roomToRemove = RoomSelectionList.find(r => r.RoomNumber === roomId);
         if (roomToRemove) {
             let removedRoomType = roomToRemove.RoomDetails ? roomToRemove.RoomDetails.RoomTypeId : null;
-            
+
             let sameTypeCount = RoomSelectionList.filter(r => r.RoomDetails && r.RoomDetails.RoomTypeId === removedRoomType).length;
 
             sameTypeCount = sameTypeCount - 1;
@@ -147,7 +147,8 @@ function addRoom() {
 
     roomsContainer.appendChild(newRoom);
     //applyGuestSelection();
-    RoomSelectionList.push({ RoomNumber: roomCount, Adults: 1, Children: 0 });
+    //RoomSelectionList.push({ RoomNumber: roomCount, Adults: 1, Children: 0 });
+    RoomSelectionList.push({ RoomNumber: roomCount, Adults: 1, Children: 0, SelectedServices: [] });
     SummaryPartialView1();
 }
 
@@ -209,16 +210,61 @@ function updateSummaryDisplay() {
 }
 
 // Toggle service selection
-function toggleService(service, price) {
-    const index = SelectedServices.findIndex(s => s.Service === service);
-
-    if (index > -1) {
-        SelectedServices.splice(index, 1);
+function toggleService(checkbox, service, price) {
+    const serviceObj = { Service: service, Price: price };
+    const wasChecked = checkbox.dataset.checked === 'true';
+    if (checkbox.checked) {
+        // If already checked, add service only to rooms missing it
+        if (wasChecked) {
+            RoomSelectionList.forEach(room => {
+                if (!room.SelectedServices.some(s => s.Service === service)) {
+                    room.SelectedServices.push(serviceObj);
+                }
+            });
+        } else {
+            // Newly checked: add service to all rooms
+            if (!SelectedServices.some(s => s.Service === service)) {
+                SelectedServices.push(serviceObj);
+            }
+            RoomSelectionList.forEach(room => {
+                if (!room.SelectedServices.some(s => s.Service === service)) {
+                    room.SelectedServices.push(serviceObj);
+                }
+            });
+        }
     } else {
         SelectedServices.push({ Service: service, Price: price });
+        // Unchecked: remove service from all rooms
+        SelectedServices = SelectedServices.filter(s => s.Service !== service);
+        RoomSelectionList.forEach(room => {
+            room.SelectedServices = room.SelectedServices.filter(s => s.Service !== service);
+        });
     }
+    checkbox.dataset.checked = checkbox.checked;
 
     updateServicesDisplay();
+    SummaryPartialView();
+    SummaryPartialView1();
+}
+
+// Remove service from a specific room in summary
+function removeService(roomNumber, service) {
+    let room = RoomSelectionList.find(r => r.RoomNumber === roomNumber);
+    if (!room) return;
+
+    room.SelectedServices = room.SelectedServices.filter(s => s.Service !== service);
+
+    // If no room has this service, remove from global list and uncheck checkbox
+    const serviceStillSelected = RoomSelectionList.some(r => r.SelectedServices.some(s => s.Service === service));
+    if (!serviceStillSelected) {
+        SelectedServices = SelectedServices.filter(s => s.Service !== service);
+        const chk = document.querySelector(`input[data-service="${service}"]`);
+        if (chk) {
+            chk.checked = false;
+            chk.dataset.checked = 'false';
+        }
+    }
+
     SummaryPartialView();
     SummaryPartialView1();
 }
