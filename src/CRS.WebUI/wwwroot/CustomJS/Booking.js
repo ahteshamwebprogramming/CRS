@@ -189,18 +189,18 @@ function isCaptchaValid() {
     return userAnswer === captchaTotal;
 }
 function LoadSummaryPartialFromSession() {
-    $.ajax({
-        type: "GET",
-        url: '/Home/LoadSummaryFromSessionViewOnly',
-        cache: false,
-        dataType: "html",
-        success: function (data) {
-            $('#div_SummaryPartialView').html(data);
-        },
-        error: function (result) {
-            console.error("Error loading summary from session", result.responseText);
-        }
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    url: '/Home/LoadSummaryFromSessionViewOnly',
+    //    cache: false,
+    //    dataType: "html",
+    //    success: function (data) {
+    //        $('#div_SummaryPartialView').html(data);
+    //    },
+    //    error: function (result) {
+    //        console.error("Error loading summary from session", result.responseText);
+    //    }
+    //});
 }
 function LoadSummaryPartialFromSession1() {
     $.ajax({
