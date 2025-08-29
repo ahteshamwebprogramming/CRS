@@ -181,7 +181,7 @@ namespace CRS.WebUI.Controllers
                     }
                 }
             }
-            sessionInputDTO.RoomSelectionList = inputDTO.RoomSelectionList;
+            //sessionInputDTO.RoomSelectionList = inputDTO.RoomSelectionList;
 
 
             HttpContext.Session.SetString("Summary1", JsonConvert.SerializeObject(sessionInputDTO));

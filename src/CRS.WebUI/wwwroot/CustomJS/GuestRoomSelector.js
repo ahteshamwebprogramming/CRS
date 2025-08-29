@@ -220,6 +220,7 @@ function toggleService(service, price) {
 
     updateServicesDisplay();
     SummaryPartialView();
+    SummaryPartialView1();
 }
 
 // Update services display
@@ -343,7 +344,8 @@ function SummaryPartialView1() {
         const inputDTO = {
             CheckInDate: CheckInDate,
             CheckOutDate: CheckOutDate,
-            RoomSelectionList: RoomSelectionList
+            RoomSelectionList: RoomSelectionList,
+            SelectedServices: SelectedServices
         };
 
         $.ajax({
