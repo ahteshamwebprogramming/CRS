@@ -33,6 +33,8 @@
         decimal totalRoomCharges = 0;
         decimal totalServiceCharges = 0;
         decimal taxRate = 0.05m;
+        var selectedServices = new List<dynamic>();
+
         if (Model != null && Model.RoomSelectionList != null)
         {
             foreach (var item in Model.RoomSelectionList)
@@ -46,7 +48,6 @@
                     decimal roomTotal = pricePerNight * nights * quantity;
                     totalRoomCharges += roomTotal;
 
-
                     <div class="room-title">@item?.RoomDetails?.RoomTypeName</div>
                     <div class="price-details">
                         $@pricePerNight /Night x @quantity room(s) x @nights night(s)
@@ -56,23 +57,31 @@
 
                     @if (item.SelectedServices != null && item.SelectedServices.Any())
                     {
-                        <div class="service-section">
-                            <h5>Addons</h5>
-                            @foreach (var service in item.SelectedServices)
-                            {
-                                totalServiceCharges += service.Price;
-                                <div class="service-details">
-                                    <p>@service.Service</p>
-                                    <span class="amount">$@service.Price.ToString("0.00")</span>
-                                </div>
-                            }
-                        </div>
+                        foreach (var service in item.SelectedServices)
+                        {
+                            totalServiceCharges += service.Price;
+                            selectedServices.Add(service);
+                        }
                     }
                     <hr />
                 }
             }
         }
 
+        if (selectedServices.Any())
+        {
+            <div class="service-section">
+                <h5>Addons</h5>
+                @foreach (var svc in selectedServices.GroupBy(s => (string)s.Service))
+                {
+                    var serviceTotal = svc.Sum(s => (decimal)s.Price);
+                    <div class="service-details">
+                        <p>@svc.Key</p>
+                        <span class="amount">$@serviceTotal.ToString("0.00")</span>
+                    </div>
+                }
+            </div>
+        }
 
         var tax = (totalRoomCharges + totalServiceCharges) * taxRate;
         var grandTotal = totalRoomCharges + totalServiceCharges + tax;
