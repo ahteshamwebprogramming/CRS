@@ -297,9 +297,9 @@ namespace CRS.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadSummaryFromSessionViewOnly1()
         {
-            var summaryJson = HttpContext.Session.GetString("Summary");
+            var summaryJson = HttpContext.Session.GetString("Summary1");
             if (string.IsNullOrEmpty(summaryJson))
-                return BadRequest("Summary not found in session.");
+                return BadRequest("Summary1 not found in session.");
 
             SummaryViewModelNew dto = await GetDataForLoadSummaryFromSession1();
 
