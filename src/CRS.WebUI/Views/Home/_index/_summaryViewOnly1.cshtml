@@ -32,6 +32,7 @@
     @{
 
         decimal totalRoomCharges = 0;
+        decimal totalServiceCharges = 0;
         decimal taxRate = 0.05m;
         if (Model != null && Model.RoomSelectionList != null)
         {
@@ -53,29 +54,46 @@
                 </div>
                 <p><strong>Guest:</strong> @item?.Adults Adult(s), @item?.Children Children(s)</p>
 
+
+                @if (item.SelectedServices != null && item.SelectedServices.Any())
+                {
+                    <div class="service-section">
+                        <h5>Addons</h5>
+                        @foreach (var service in item.SelectedServices)
+                        {
+                            totalServiceCharges += service.Price;
+                            <div class="service-details">
+                                <p>@service.Service</p>
+                                <span class="amount">$@service.Price.ToString("0.00")</span>
+                            </div>
+                        }
+                    </div>
+                }
                 
+
+
 
                 <hr />
             }
         }
 
-        decimal totalServiceCharges = 0;
+        //decimal totalServiceCharges = 0;
 
-        if (Model != null && Model.SelectedServices != null && Model.SelectedServices.Any())
-        {
-            <div class="service-section">
-                <h5>Selected Services</h5>
-                @foreach (var service in Model.SelectedServices)
-                {
-                    totalServiceCharges += service.Price;
-                    <div class="service-details">
-                        <p>@service.Service</p>
-                        <span class="amount">$@service.Price.ToString("0.00")</span>
-                    </div>
-                }
-                <hr />
-            </div>
-        }
+        // if (Model != null && Model.SelectedServices != null && Model.SelectedServices.Any())
+        // {
+        //     <div class="service-section">
+        //         <h5>Selected Services</h5>
+        //         @foreach (var service in Model.SelectedServices)
+        //         {
+        //             totalServiceCharges += service.Price;
+        //             <div class="service-details">
+        //                 <p>@service.Service</p>
+        //                 <span class="amount">$@service.Price.ToString("0.00")</span>
+        //             </div>
+        //         }
+        //         <hr />
+        //     </div>
+        // }
 
 
         var tax = (totalRoomCharges + totalServiceCharges) * taxRate;
