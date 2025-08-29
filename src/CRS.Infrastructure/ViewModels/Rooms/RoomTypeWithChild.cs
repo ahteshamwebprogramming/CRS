@@ -14,5 +14,9 @@
         public decimal? OfferedPrice { get; set; }
         public decimal? ActualPrice { get; set; }
         public decimal? OfferPercentage { get; set; }
+
+        public string? Service { get; set; }
+        public int? PackageId { get; set; }
     }
+
 }

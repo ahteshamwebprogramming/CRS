@@ -1,0 +1,360 @@
+﻿@model CRS.Infrastructure.Models.Masters.BookingReviewViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var i = 1;
+}
+    
+    <style>
+
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+         margin-top : 30px;
+            color: #2c3e50;
+            font-size:22px;
+        }
+
+        /* Booking Summary */
+        .booking-summary h3, .payment-summary h3 {
+            margin: 0 0 10px 0;
+        padding: 0;
+        font-size: 18px;
+        }
+
+        .booking-summary {
+        background: #f7f7f7;
+        border: #ccc solid 1px;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .summary-card {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: #cccccc7d solid 1px;
+        }
+
+            .summary-card h4 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                color: #2c3e50;
+            }
+
+            .summary-card .location {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 8px;
+            }
+
+            .summary-card .dates {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 15px;
+            }
+
+        .date-box {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .month {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .separator {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 12px;
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+        background: #f7f7f7;
+        border: #ccc solid 1px;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            margin: 0px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-card {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+        border: #cccccc7d solid 1px;
+        }
+
+           .guest-table td{background:#fff}
+                .payment-card .row1.indent {
+                   
+                    color: #666;
+                }
+
+            .payment-card .offer {
+                color: #e74c3c;
+            }
+
+            .payment-card .total {
+                font-size: 16px;
+                font-weight: bold;
+                color: #2c3e50;
+            }
+
+            .payment-card hr {
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 10px 0;
+            }
+
+        /* Guest Details */
+        .guest-details-section {
+        background: #f7f7f7;
+        border: #ccc solid 1px;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+                
+        }
+
+            .guest-details-section h3 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                color: #2c3e50;
+                text-align:center;
+            }
+
+        .guest-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .guest-table th,
+            .guest-table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: center;
+            }
+
+            .guest-table th {
+                background-color: #eee;
+                font-weight: 600;
+            }
+
+        /* Payment Section */
+        .payment-section {
+        border: #ccc solid 1px;
+        background: #f7f7f7;
+        margin: 0px 0 100px 0;
+            padding: 20px;
+            border-radius: 12px;
+            
+        }
+
+            .payment-section .total {
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 15px;
+                color: #2c3e50;
+            }
+
+        .couponFeild {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+        margin: 20px 0 0px 0;
+            border: #ccc solid 1px;
+            border-radius: 12px;
+            background: #fff;
+        }
+
+            .couponFeild label {
+                font-weight: bold;
+                color: #2c3e50;
+                min-width: 120px;
+            }
+
+            .couponFeild input[type="text"] {
+                flex: 1;
+                padding: 10px 15px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+            }
+
+        .payment-section button {
+        background-color: #765951;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+            .payment-section button:hover {
+                background-color: #219150;
+            }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+            .payment-methods .payment-card {
+                background-color: #fafafa;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                padding: 10px 20px;
+                min-width: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+                transition: transform 0.2s ease;
+            }
+
+                .payment-methods .payment-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+                }
+
+                .payment-methods .payment-card img {
+                    max-width: 40px;
+                    margin-bottom: 8px;
+                }
+
+                .payment-methods .payment-card span {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #333;
+                }
+
+        .payment-card1 {
+            display: flex;
+            gap: 20px;
+        }
+
+        .cCtaoiner {
+            width: 1000px;
+            margin: 0 auto;
+        }
+  
+        </style>
+
+
+    <div class="cCtaoiner">
+        <h2>Hotel Room Booking Review</h2>
+        <div class="payment-card1">
+            <!-- Booking Summary -->
+            <div class="booking-summary">
+                <h3>Booking Summary</h3>
+                <div class="summary-card">
+                    <h4>Naad Wellness</h4>
+                    <p class="location">Kundli, Haryana, India</p>
+                <p><strong>Rooms:</strong> @Model.Summary.NoOfRooms &nbsp; <strong>Adults:</strong> 2  <strong>No Of Stays:</strong>  &nbsp;@Model.Summary.NoOfNights</p>
+                    <div class="dates">
+                        <div class="date-box">
+                            <div class="label">Check-In</div>
+                        <div class="date">@Model.Summary.CheckInDate?.Day</div>
+                        <div class="month">@Model.Summary.CheckInDate?.ToString("MMMM")</div>
+                        </div>
+                        <span class="separator">-</span>
+                        <div class="date-box">
+                            <div class="label">Check-Out</div>
+                        <div class="date">@Model.Summary.CheckOutDate?.Day</div>
+                        <div class="month">@Model.Summary.CheckOutDate?.ToString("MMMM")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="payment-summary">
+                <h3>Payment Details</h3>
+                <div class="payment-card">
+                <div class="row1"><span>Hotel Charges</span><span>₹ 8,500</span></div>
+                <div class="row1">
+                        <span>
+                            Hotel GST
+                            <span title="Goods and Services Tax applied by the hotel" style="cursor: help; color: #888; margin-left:0px;">&#x2753;</span>
+                        </span>
+                        <span>₹ 511</span>
+                    </div>
+                <div class="row1 indent"><span>Convenience Fee</span><span>₹ 151</span></div>
+                <div class="row1"><span class="offer">Hotel Offer (-)</span><span>₹ 4,251</span></div>
+                    <div class="row1"><span class="offer">Promo Offer (-)</span><span>₹ 1,024</span></div>
+                    <hr />
+                <div class="row1 total"><span>You Pay</span><span>₹ 3,887</span></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Guest Details -->
+        <div class="guest-details-section">
+            <h3>Guest Details</h3>
+            <table class="guest-table">
+
+                <tbody>
+                @foreach (var guest in Model.Booking.Guests)
+                {
+                    <tr>
+                        <td>Guest @i</td>
+                        <td>@guest.FirstName @guest.LastName</td>
+                        <td>@guest.Gender</td>
+                        <td>@guest.Age</td>
+                    </tr>
+                    i++;
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+        <div class="total text-center">Total Payment: ₹3,887</div>
+            <div class="couponFeild">
+                <label for="coupon">Coupon Code</label>
+                <input type="text" id="coupon" placeholder="Enter coupon code" />
+            </div>
+            <div class="total text-center">Grand Total Payment: ₹3,887</div>
+            <button>Proceed to Payment</button>
+
+        </div>
+    </div>
+
+

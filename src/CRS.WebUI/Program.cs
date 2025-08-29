@@ -1,7 +1,7 @@
 
 using CRS.Core.Repository;
 using CRS.Infrastructure.Interface;
-using CRS.Infrastruture.Helper;
+using CRS.Infrastructure.Helper;
 using CRS.Services.Configurations;
 using CRS.Services.DBContext;
 using CRS.Services.Helper;

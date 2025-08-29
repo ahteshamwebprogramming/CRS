@@ -4,6 +4,7 @@
     {
         public DateTime? Date { get; set; }
         public int? RoomTypeId { get; set; }
+        public int? PackageId { get; set; }
         public double? Price { get; set; }
         public int? RoomsAvailable { get; set; }
     }

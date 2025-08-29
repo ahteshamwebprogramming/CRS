@@ -1,6 +1,9 @@
 ﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
 <style>
-    .service-details p{margin:0;}
+    .service-details p {
+        margin: 0;
+    }
+
     .service-details {
         display: flex;
         justify-content: space-between;
@@ -8,13 +11,87 @@
 
     .amount {
         font-weight: 700;
-        
         color: #000;
     }
+
+    
 </style>
-<h2 class="mb-3">Summary</h2>
-<div class="booking-container">
-    <div class="header">
+<style>
+
+    .applycoupon {
+        --border: #e6e8ef;
+        --surface: #fff;
+        --ink: #0f172a;
+        margin-top: 1.5rem;
+        padding: 1.2rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .applycoupon h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--ink);
+        }
+
+        .applycoupon .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .applycoupon .input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+            .applycoupon .input:focus {
+                border-color: #4f46e5; /* Indigo tone */
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+                outline: none;
+            }
+
+        .applycoupon .btn {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+    #applyCoupon {
+        background: #4f46e5;
+        color: #fff;
+    }
+
+        #applyCoupon:hover {
+            background: #4338ca;
+            transform: scale(1.03);
+        }
+
+    #removeCoupon {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+        #removeCoupon:hover {
+            background: #e5e7eb;
+            transform: scale(1.03);
+        }
+
+
+</style>
+<div class="">
+    @* <div class="header">
         <div class="text-start">
             CHECK IN <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckInDate?.ToString("dd MMM, yyyy")</span>
@@ -24,7 +101,7 @@
             CHECK OUT <br />
             <span class="date">@Model?.SummaryInputDTO?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
         </div>
-    </div>
+    </div> *@
 
     @if (Model?.SummaryInputDTO?.SelectedRooms?.Any() == true)
     {
@@ -49,7 +126,7 @@
             <hr />
         }
 
-       
+
         decimal totalServiceCharges = 0;
         if (Model?.SummaryInputDTO?.SelectedServices?.Any() == true)
         {
@@ -88,11 +165,22 @@
         <div class="total">
             Total Price <span class="amount">$@grandTotal.ToString("0.00")</span>
         </div>
+
+        <section class="applycoupon">
+            <h3>Apply Coupon</h3>
+            <div class="row">
+                <input class="input" id="coupon" placeholder="Enter coupon (e.g., WELCOME10)">
+                <button class="btn" id="applyCoupon">Apply</button>
+                <button class="btn" id="removeCoupon" aria-label="Remove coupon" title="Remove coupon">Remove</button>
+            </div>
+        </section>
+
+
     }
     else
     {
         <p>No room selected yet.</p>
     }
 
-    <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a>
+    @* <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a> *@
 </div>

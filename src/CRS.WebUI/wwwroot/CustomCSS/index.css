@@ -35,6 +35,10 @@
     padding: 0;
 }
 
+#roomDetailsModal .grid {
+    display: grid;
+}
+
 .btn-success {
     background: #7b584f !important;
     border: #7b584f;
@@ -691,6 +695,7 @@
     }
 .actualPrice {
     color: #a9a8a8;
+    margin-bottom:0px;
 }
 .actualPrice span {
     text-shadow: 1px 1px 2px #a9a0a0;

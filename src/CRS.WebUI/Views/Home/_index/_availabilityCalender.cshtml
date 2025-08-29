@@ -8,7 +8,7 @@
             <div class="date-item">
                 <span>@item?.Date?.ToString("ddd")</span><br>
                 <span class="">@item?.Date?.ToString("dd") @item?.Date?.ToString("MMM")</span><br>
-                <span class="text-success">₹@(item?.Price?.ToString("N0") ?? "0.00")</span><br>
+                <span class="text-success">$@(item?.Price?.ToString("N0") ?? "0.00")</span><br>
                 <small class="text-muted">
                     @{
                         if (item?.RoomsAvailable == 0)

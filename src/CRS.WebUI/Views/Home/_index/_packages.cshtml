@@ -1,30 +1,47 @@
 ﻿@model CRS.Infrastructure.ViewModels.Rooms.RoomsViewModel
+<style>
+    .checkbox_a {
+        float: right;
+    }
+</style>
+<div class="rows rowsContainer2">
+    <div class="packageDate">
+        <h4 class="mb-3 mt-3">Add Ons</h4>
 
-<div class="containerStay">
-    <h4 class="mb-3">Packages</h4>
 
-
-    @{
-        if (Model != null && Model.Services != null)
-        {
-            foreach (var item in Model.Services)
+        @{
+            if (Model != null && Model.Services != null)
             {
-                <div class="addon-card d-flex">
-                   
-                    <div class="addon-content">
-                        <div class="addon-title" style="position:relative">
-                            <p style="">
-                                @item.Service
-                                
-                                <span class="addon-price">₹@item.Price</span>
-                            </p>
-                            
+                foreach (var item in Model.Services)
+                {
+                    <div class="addon-card d-flex">
+
+                        <div class="addon-content">
+                            <div class="addon-title" style="position:relative">
+                                <p style="">
+                                    @item.Service
+
+                                    <span class="addon-price">$@item.Price</span>
+                                    <span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.Service', @item.Price)" /></span>
+                                </p>
+
+                            </div>
+                            <div class="addon-description">@item.Description</div>
                         </div>
-                        <div class="addon-description">@item.Description</div>
                     </div>
-                </div>
+                }
             }
         }
-    }
 
+    </div>
 </div>
+
+@*<div class="toggle-btn toggleButton" onclick="toggleRows2(this)">
+    <img src="~/images/arrowbtn.svg" width="24">
+</div>
+*@
+
+<div class="toggle-btn toggleButton" onclick="toggleRows2(this)">
+    <img src="~/images/chevron-down.svg" width="24" alt="Expand">
+    @*<img src="~/images/chevron-down.png" />*@
+</div>  

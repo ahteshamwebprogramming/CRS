@@ -7,5 +7,6 @@ namespace CRS.Infrastructure.ViewModels.Rooms
         public List<RoomTypeWithChild>? RoomTypesWithAttr { get; set; }
         public List<ServicesDTO>? Services { get; set; }
         public List<RoomCalenderPrice>? RoomCalenderPrices { get; set; }
+        public List<TaskDTO>? TaskPackage { get; set; }
     }
 }

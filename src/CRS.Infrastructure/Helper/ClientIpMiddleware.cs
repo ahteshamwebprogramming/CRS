@@ -1,4 +1,4 @@
-﻿namespace CRS.Infrastruture.Helper;
+﻿namespace CRS.Infrastructure.Helper;
 
 public class ClientIpMiddleware
 {

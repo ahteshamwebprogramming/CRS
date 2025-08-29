@@ -1,6 +1,9 @@
-﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
+﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModelNew
 <style>
-    .service-details p{margin:0;}
+    .service-details p {
+        margin: 0;
+    }
+
     .service-details {
         display: flex;
         justify-content: space-between;
@@ -8,7 +11,6 @@
 
     .amount {
         font-weight: 700;
-        
         color: #000;
     }
 </style>
@@ -17,45 +19,51 @@
     <div class="header">
         <div class="text-start">
             CHECK IN <br />
-            <span class="date">@Model?.SummaryInputDTO?.CheckInDate?.ToString("dd MMM, yyyy")</span>
+            <span class="date">@Model?.CheckInDate?.ToString("dd MMM, yyyy")</span>
         </div>
-        <div class="nights">@Model?.SummaryInputDTO?.NoOfNights Night</div>
+        <div class="nights">@Model?.NoOfNights Night</div>
         <div class="text-end">
             CHECK OUT <br />
-            <span class="date">@Model?.SummaryInputDTO?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
+            <span class="date">@Model?.CheckOutDate?.ToString("dd MMM, yyyy")</span>
         </div>
     </div>
 
-    @if (Model?.SummaryInputDTO?.SelectedRooms?.Any() == true)
-    {
+    @{
+
         decimal totalRoomCharges = 0;
         decimal taxRate = 0.05m;
-
-        foreach (var room in Model.SummaryInputDTO.SelectedRooms)
+        if (Model != null && Model.RoomSelectionList != null)
         {
-            decimal pricePerNight = room.Price;
-            int nights = Model.SummaryInputDTO.NoOfNights ?? 1;
-            int quantity = room.NoOfRooms;
+            foreach (var item in Model.RoomSelectionList)
+            {
+                if (item.RoomDetails != null)
+                {
+                    decimal pricePerNight = item?.RoomDetails?.Price ?? 0;
+                    int nights = Model.NoOfNights ?? 1;
+                    int quantity = 1;
 
-            decimal roomTotal = pricePerNight * nights * quantity;
-            totalRoomCharges += roomTotal;
+                    decimal roomTotal = pricePerNight * nights * quantity;
+                    totalRoomCharges += roomTotal;
 
-            <div class="room-title">@room.Rtype</div>
-            <div class="price-details">
-                $@pricePerNight /Night x @quantity room(s) x @nights night(s)
-                <span class="amount">$@roomTotal.ToString("0.00")</span>
-            </div>
-            <p><strong>Guest:</strong> @room.Adults Adult(s), @room.Children Children(s)</p>
-            <hr />
+
+                    <div class="room-title">@item?.RoomDetails?.RoomTypeName</div>
+                    <div class="price-details">
+                        $@pricePerNight /Night x @quantity room(s) x @nights night(s)
+                        <span class="amount">$@roomTotal.ToString("0.00")</span>
+                    </div>
+                    <p><strong>Guest:</strong> @item?.Adults Adult(s), @item?.Children Children(s)</p>
+                    <hr />
+                }
+            }
         }
 
-       
         decimal totalServiceCharges = 0;
-        if (Model?.SummaryInputDTO?.SelectedServices?.Any() == true)
+
+        if (Model != null && Model.SelectedServices != null && Model.SelectedServices.Any())
         {
             <div class="service-section">
                 <h5>Selected Services</h5>
-                @foreach (var service in Model.SummaryInputDTO.SelectedServices)
+                @foreach (var service in Model.SelectedServices)
                 {
                     totalServiceCharges += service.Price;
                     <div class="service-details">
@@ -66,6 +74,7 @@
                 <hr />
             </div>
         }
+
 
         var tax = (totalRoomCharges + totalServiceCharges) * taxRate;
         var grandTotal = totalRoomCharges + totalServiceCharges + tax;
@@ -88,10 +97,8 @@
         <div class="total">
             Total Price <span class="amount">$@grandTotal.ToString("0.00")</span>
         </div>
-    }
-    else
-    {
-        <p>No room selected yet.</p>
+
+
     }
 
     <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a>

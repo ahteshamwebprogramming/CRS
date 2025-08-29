@@ -1,0 +1,141 @@
+﻿html, body {
+    overflow-x: hidden; /* Hides horizontal scroll */
+}
+
+/*.container, .row {
+    max-width: 100%;
+}*/
+
+/*img {
+    max-width: 100%;
+    height: auto;
+}
+*/
+
+
+
+
+
+.custom-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #7b584f; /* Matches your header's dark blue tone */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px; /* Slim footer height */
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9999;
+}
+
+    .custom-footer .footer-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .custom-footer a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .custom-footer a:hover {
+            text-decoration: underline;
+        }
+
+
+
+
+
+
+/*        Maps Css*/
+.hotel-map {
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 8px; /* optional rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/*Why love it*/
+
+/* Section Styling */
+.why-love-section {
+    background: #f9f9f9;
+    padding: 40px 20px;
+    border-radius: 10px;
+}
+
+.section-title {
+    text-align: center !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+    margin-bottom: 30px !important;
+}
+
+/* Feature Cards */
+.feature-card {
+    background: #fff !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+    .feature-card:hover {
+        transform: translateY(-8px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+/* Icon Area */
+.feature-icon img {
+    width: 60px !important;
+    height: 60px !important;
+    margin-bottom: 15px !important;
+}
+
+.iconArea h5 {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Content */
+.feature-content p {
+    font-size: 0.95rem !important;
+    color: #555 !important;
+    line-height: 1.5 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .feature-card {
+        margin-bottom: 20px;
+    }
+}
+
+
+/*Toggle and room View*/ 
+
+
+.toggle-btn img {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.toggle-btn.expanded img {
+    /*transform: rotate(180deg);*/
+}

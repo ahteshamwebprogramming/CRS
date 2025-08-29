@@ -9,19 +9,21 @@
     <link rel="stylesheet" href="~/CRS.WebUI.styles.css" asp-append-version="true" />
     <link href="~/customcss/index.css" rel="stylesheet" />
        
-    <title>Booking Engine - Naad Wellness</title>
+    <title>Booking Engine - One Hotel Group</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="~/customcss/index.css" rel="stylesheet" />
+    <link href="~/customcss/admin.css" rel="stylesheet" />
 </head>
-<body>
+<body>  
     <header>
       
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://www.naadwellness.com">Naad Wellness</a>
+            <a class="navbar-brand" href="https://www.onehotelgroup.com" target="_blank">One Hotel Group</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,11 +49,20 @@
         
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - 08 Consultings <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+  @*   <footer class="custom-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 - 08 Consultings | <a href="/Home/Privacy">Privacy Policy</a></p>
+        </div>
+    </footer> *@
+
+    <footer class="custom-footer">
+        <div class="footer-container">
+            <span>&copy; 2025 - 08 Consultings</span>
+            <a href="/Home/Privacy">Privacy Policy</a>
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

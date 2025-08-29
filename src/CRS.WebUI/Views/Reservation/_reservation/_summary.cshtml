@@ -1,0 +1,379 @@
+﻿@model CRS.Infrastructure.ViewModels.Summary.SummaryViewModel
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /*  * {
+                                                                                        margin: 0;
+                                                                                        padding: 0;
+                                                                                        box-sizing: border-box;
+                                                                                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                                                                    }
+
+                                                                                    body {
+                                                                                        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+                                                                                        min-height: 100vh;
+                                                                                        display: flex;
+                                                                                        justify-content: center;
+                                                                                        align-items: center;
+                                                                                        padding: 20px;
+                                                                                    }
+                                                                                 */
+    .booking-summary-container {
+        width: 100%;
+        /* max-width: 500px; */
+        background: white;
+        border-radius: 16px;
+        /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); */
+        overflow: hidden;
+    }
+
+    .booking-summary {
+        padding: 25px;
+    }
+
+    .room-title {
+        font-weight: 700;
+        font-size: 18px;
+        color: #7b584f;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .room-title i {
+            font-size: 16px;
+        }
+
+    .price-details {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        color: #555;
+        font-size: 15px;
+    }
+
+    .amount {
+        font-weight: 700;
+        color: #000;
+    }
+
+    .guest-info {
+        color: #666;
+        margin: 10px 0;
+        font-size: 15px;
+    }
+
+    .total {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 700;
+        border-top: 2px solid #eee;
+        margin-top: 10px;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 15px 0;
+    }
+
+    .service-section h5 {
+        color: #7b584f;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .service-details {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 15px;
+    }
+
+        .service-details p {
+            margin: 0;
+            color: #555;
+        }
+
+    /* Enhanced Coupon Section Styles */
+    .applycoupon {
+        --border: #e6e8ef;
+        --surface: #fff;
+        --ink: #0f172a;
+        margin-top: 25px;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 12px;
+        border: 1px solid #eee;
+    }
+
+        .applycoupon h3 {
+            margin-bottom: 15px;
+            color: #7b584f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .applycoupon .row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .applycoupon .input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--surface);
+            color: var(--ink);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+            .applycoupon .input:focus {
+                border-color: #7b584f;
+                box-shadow: 0 0 0 3px rgba(123, 88, 79, 0.2);
+            }
+
+        .applycoupon .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            background: var(--surface);
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .applycoupon #applyCoupon {
+            background: #7b584f;
+            color: white;
+            border-color: #7b584f;
+        }
+
+            .applycoupon #applyCoupon:hover {
+                background: #6a4a42;
+                border-color: #6a4a42;
+                transform: translateY(-2px);
+            }
+
+        .applycoupon #removeCoupon {
+            background: #f8f8f8;
+        }
+
+            .applycoupon #removeCoupon:hover {
+                background: #f1f1f1;
+                transform: translateY(-2px);
+            }
+
+    .coupon-notice {
+        margin-top: 15px;
+        padding: 12px;
+        background: #f8f6e4;
+        border-radius: 8px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #555;
+    }
+
+        .coupon-notice i {
+            color: #e6b325;
+        }
+
+    .discount {
+        color: #2ecc71;
+        font-weight: 600;
+    }
+
+    .no-rooms {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        font-style: italic;
+    }
+
+    @@media (max-width: 576px) {
+        .booking-summary {
+            padding: 20px;
+        }
+
+        .applycoupon .row {
+            flex-wrap: wrap;
+        }
+
+        .applycoupon .input {
+            min-width: 100%;
+        }
+
+        .applycoupon .btn {
+            flex: 1;
+            min-width: calc(50% - 6px);
+        }
+    }
+</style>
+
+<div class="booking-summary-container">
+
+    @{
+        if (Model?.SummaryInputDTO?.SelectedRooms?.Any() == true)
+        {
+            decimal totalRoomCharges = 0;
+            decimal taxRate = 0.05m;
+
+            <div class="booking-summary">
+                @{
+                    foreach (var room in Model.SummaryInputDTO.SelectedRooms)
+                    {
+                        decimal pricePerNight = room.Price;
+                        int nights = Model.SummaryInputDTO.NoOfNights ?? 1;
+                        int quantity = room.NoOfRooms;
+
+                        decimal roomTotal = pricePerNight * nights * quantity;
+                        totalRoomCharges += roomTotal;
+
+                        <div class="room-title">
+                            <i class="fas fa-bed"></i> @room.Rtype
+                        </div>
+                        <div class="price-details">
+                            <span>$@pricePerNight /Night x @quantity room(s) x @nights night(s)</span>
+                            <span class="amount">$@roomTotal.ToString("0.00")</span>
+                        </div>
+                        <p class="guest-info"><strong>Guest:</strong> @room.Adults Adult(s), @room.Children Children(s)</p>
+                        <hr />
+                    }
+
+                    decimal totalServiceCharges = 0;
+                    if (Model?.SummaryInputDTO?.SelectedServices?.Any() == true)
+                    {
+
+
+                        <div class="service-section">
+                            <h5><i class="fas fa-concierge-bell"></i> Selected Services</h5>
+
+                            @{
+                                foreach (var service in Model.SummaryInputDTO.SelectedServices)
+                                {
+                                    totalServiceCharges += service.Price;
+
+                                    <div class="service-details">
+                                        <p>@service.Service</p>
+                                        <span class="amount">$@service.Price.ToString("0.00")</span>
+                                    </div>
+                                }
+                            }
+                            <hr />
+                        </div>
+
+                    }
+
+
+                    var tax = (totalRoomCharges + totalServiceCharges) * taxRate;
+                    var grandTotal = totalRoomCharges + totalServiceCharges + tax;
+
+
+                    <div class="price-details">
+                        Total Room Charges <span class="amount">$@totalRoomCharges.ToString("0.00")</span>
+                    </div>
+
+                    @if (totalServiceCharges > 0)
+                    {
+                        <div class="price-details">
+                            Total Service Charges <span class="amount">$@totalServiceCharges.ToString("0.00")</span>
+                        </div>
+                    }
+
+                    
+                    <div class="price-details">
+                        Total Taxes <span class="amount">$@tax.ToString("0.00")</span>
+                    </div>
+
+                    <hr />
+
+                    <div class="total">
+                        Total Price <span class="amount">$@grandTotal.ToString("0.00")</span>
+                    </div>
+
+                    <section class="applycoupon">
+                        <h3><i class="fas fa-tag"></i> Apply Coupon</h3>
+                        <div class="row">
+                            <input class="input" id="coupon" placeholder="Enter coupon code">
+                            <button class="btn" id="applyCoupon" style="width:auto">
+                                <i class="fas fa-check-circle"></i> Apply
+                            </button>
+                            <button class="btn" id="removeCoupon" aria-label="Remove coupon" title="Remove coupon" style="width:auto">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                        <div class="coupon-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Try codes: WELCOME10, FESTIVE25, or NAAD500</span>
+                        </div>
+                    </section>
+
+                }
+            </div>
+        }
+        else
+        {
+            <p>No room selected yet.</p>
+        }
+    }
+
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const couponInput = document.getElementById('coupon');
+        const applyBtn = document.getElementById('applyCoupon');
+        const removeBtn = document.getElementById('removeCoupon');
+
+
+
+        // Apply coupon function
+        applyBtn.addEventListener('click', function() {
+            const couponCode = couponInput.value.trim();
+
+            if (couponCode === '') {
+                alert('Please enter a coupon code');
+                return;
+            }
+
+            // Simulate coupon validation
+            if (couponCode === 'WELCOME10' || couponCode === 'FESTIVE25' || couponCode === 'NAAD500') {
+                alert(`Coupon "${couponCode}" applied successfully!`);
+                couponInput.style.borderColor = '#2ecc71';
+            } else {
+                alert('Invalid coupon code. Please try again.');
+                couponInput.style.borderColor = '#e74c3c';
+            }
+        });
+
+        // Remove coupon function
+        removeBtn.addEventListener('click', function() {
+            couponInput.value = '';
+            couponInput.style.borderColor = '#e6e8ef';
+            alert('Coupon has been removed');
+        });
+    });
+</script>

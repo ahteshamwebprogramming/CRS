@@ -26,5 +26,6 @@ namespace CRS.Infrastructure.Models.Masters
 
         // List of Guests
         public List<GuestDetailsDTO> Guests { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

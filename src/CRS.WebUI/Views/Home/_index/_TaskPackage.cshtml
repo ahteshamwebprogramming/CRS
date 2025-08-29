@@ -1,0 +1,41 @@
+﻿@model CRS.Infrastructure.ViewModels.Rooms.RoomsViewModel
+<style>
+    .checkbox_a {
+        float: right;
+    }
+</style>
+<div class="rows rowsContainer2">
+    <div class="packageDate">
+        <h4 class="mb-3 mt-3">Packages</h4>
+
+
+        @{
+            if (Model != null && Model.TaskPackage != null)
+            {
+                foreach (var item in Model.TaskPackage)
+                {
+                    <div class="addon-card d-flex">
+
+                        <div class="addon-content">
+                            <div class="addon-title" style="position:relative">
+                                <p style="">
+                                    @item.TaskName
+
+                                    <span class="addon-price">₹@item.Rate</span>
+                                    <span class="checkbox_a"><input type="checkbox" onchange="toggleService('@item.TaskName', @item.Rate)" /></span>
+                                </p>
+
+                            </div>
+                            <div class="addon-description">@item.Remarks</div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+    </div>
+</div>
+
+<div class="toggle-btn toggleButton" onclick="toggleRows2(this)">
+    <img src="~/images/arrowbtn.svg" width="24">
+</div>
