@@ -428,6 +428,13 @@ namespace CRS.WebUI.Controllers
             }
             return PartialView("_index/_TaskPackage", dto);
         }
+        [HttpPost]
+        public IActionResult ClearRoomSession()
+        {
+            HttpContext.Session.Remove("Summary");
+            HttpContext.Session.Remove("Summary1");
+            return Ok();
+        }
 
         [HttpPost]
         public async Task<IActionResult> ProcessPaymentAndSave([FromBody] BookingDTO model)

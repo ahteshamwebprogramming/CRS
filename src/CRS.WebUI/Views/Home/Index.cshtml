@@ -252,7 +252,10 @@
 
             </div>
 
-            <button class="book-now">BOOK NOW</button>
+             <div class="d-flex gap-2">
+                <button id="bookNowButton" class="book-now">BOOK NOW</button>
+                <button id="clearSelection" class="book-now">CLEAR</button>
+            </div>
         </div>
     </div>
 
@@ -330,7 +333,7 @@
     $(document).ready(function () {
         //RoomTypeGridPartialView(currentDate.toISOString().split('T')[0], nextDate.toISOString().split('T')[0]);
         PackagesPartialView();
-        $(".book-now").on("click", function () {
+        $("#bookNowButton").on("click", function () {
             const picker = document.getElementById('dateRangePicker')._flatpickr;
             const dates = picker.selectedDates;
             if (dates.length < 2) {
@@ -343,6 +346,10 @@
                 return;
             }
             $(".crsContainer").fadeIn(); // Smooth show animation
+        });
+
+         $("#clearSelection").on("click", function () {
+            clearAllSelections();
         });
     });
 </script>

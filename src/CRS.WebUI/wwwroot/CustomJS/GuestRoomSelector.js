@@ -669,3 +669,31 @@ function loadSelectionsFromSession() {
         }
     });
 }
+
+function clearAllSelections() {
+    $.post('/Home/ClearRoomSession', function () {
+        RoomSelections = {};
+        PaxData = [];
+        SelectedServices = [];
+        RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+        roomCount = 1;
+
+        const pickerEl = document.getElementById('dateRangePicker');
+        if (pickerEl) {
+            if (pickerEl._flatpickr) {
+                pickerEl._flatpickr.clear();
+            } else {
+                pickerEl.value = '';
+            }
+        }
+
+        $('#div_RoomTypeGridPartialView').html('');
+        $('#div_SummaryPartialView1').html('');
+        $('#div_SummaryPartialView2').html('');
+        $('.crsContainer').hide();
+
+        renderRoomsFromSession();
+        updateRoomSummaryText();
+        updateSummaryText();
+    });
+}
