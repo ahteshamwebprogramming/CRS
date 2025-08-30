@@ -124,5 +124,9 @@
     
 
     @* <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a> *@
-    <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a>
+    @* <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a> *@
+    <div class="button-group" style="display:flex; gap:10px;">
+        <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a>
+        <a href='@Url.Action("Index", "Home")' class="button">Home</a>
+    </div>
 </div>
