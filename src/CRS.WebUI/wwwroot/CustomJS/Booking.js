@@ -291,3 +291,6 @@ function UpdateSummaryInSession() {
 
 }
 
+function submitBookingForm() {
+    $('#bookingForm').trigger('submit');
+}
