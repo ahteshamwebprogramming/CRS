@@ -154,6 +154,36 @@ function addRoom() {
     SummaryPartialView1();
 }
 
+// Render rooms based on current RoomSelectionList
+function renderRoomsFromSession() {
+    const roomsContainer = document.getElementById("rooms");
+    roomsContainer.innerHTML = '';
+    roomCount = RoomSelectionList.length;
+    RoomSelectionList.forEach(item => {
+        const roomId = item.RoomNumber;
+        const roomDiv = document.createElement('div');
+        roomDiv.className = 'room';
+        roomDiv.setAttribute('data-room-id', roomId);
+        roomDiv.innerHTML = `
+            <span>Room ${roomId}</span>
+            <div class="counter">
+                <span class="userPerson">Adults</span>
+                <button onclick="updateCounter(this, ${roomId}, 'adults', -1)">−</button>
+                <span class="adults">${item.Adults}</span>
+                <button onclick="updateCounter(this, ${roomId}, 'adults', 1)">+</button>
+            </div>
+            <div class="counter">
+                <span class="userPerson">Children</span>
+                <button onclick="updateCounter(this, ${roomId}, 'children', -1)">−</button>
+                <span class="children">${item.Children}</span>
+                <button onclick="updateCounter(this, ${roomId}, 'children', 1)">+</button>
+            </div>
+        `;
+        roomsContainer.appendChild(roomDiv);
+    });
+}
+
+
 // Update the room summary text
 function updateRoomSummaryText() {
 
@@ -575,6 +605,7 @@ function loadSelectionsFromSession() {
                 RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
                 roomCount = RoomSelectionList.length;
             }
+            renderRoomsFromSession();
             //const counts = {};
             //RoomSelectionList.forEach(function (item) {
             //    var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
@@ -631,6 +662,7 @@ function loadSelectionsFromSession() {
         },
         error: function () {
             RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+            renderRoomsFromSession();
             updateRoomSummaryText();
             updateSummaryText();
             SummaryPartialView1();
