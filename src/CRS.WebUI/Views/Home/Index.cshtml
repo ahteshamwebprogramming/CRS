@@ -331,6 +331,17 @@
         RoomTypeGridPartialView(currentDate.toISOString().split('T')[0], nextDate.toISOString().split('T')[0]);
         PackagesPartialView();
         $(".book-now").on("click", function () {
+            const picker = document.getElementById('dateRangePicker')._flatpickr;
+            const dates = picker.selectedDates;
+            if (dates.length < 2) {
+                Swal.fire('Select dates', 'Please select your check-in and check-out dates.', 'warning');
+                return;
+            }
+            const diffDays = (dates[1] - dates[0]) / (1000 * 60 * 60 * 24);
+            if (diffDays < 1) {
+                Swal.fire('Invalid stay', 'Check-out must be at least one day after check-in.', 'warning');
+                return;
+            }
             $(".crsContainer").fadeIn(); // Smooth show animation
         });
     });
@@ -346,7 +357,7 @@
 
 <script>
     let _currentDate = new Date();
-    _currentDate = _currentDate.setDate(_currentDate.getDate() + 1)
+    _currentDate.setDate(_currentDate.getDate() + 1);
     flatpickr("#dateRangePicker", {
         mode: "range",
         dateFormat: "d-M-Y",
@@ -355,11 +366,15 @@
         nextArrow: "<span>&gt;</span>",
         defaultDate: [currentDate, nextDate],
         minDate: _currentDate,
-        onChange: function (selectedDates, dateStr, instance) {
+        onChange: function (selectedDates) {
             currentDate = selectedDates[0];
             nextDate = selectedDates[1];
-            if (selectedDates[0] != null && selectedDates[0] != undefined && selectedDates[0] != "" && selectedDates[1] != null && selectedDates[1] != undefined && selectedDates[1] != "")
-                RoomTypeGridPartialView(selectedDates[0], selectedDates[1]);
+            if (selectedDates.length === 2) {
+                const diffDays = (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24);
+                if (diffDays >= 1) {
+                    RoomTypeGridPartialView(selectedDates[0], selectedDates[1]);
+                }
+            }
         }
     });
 </script>
