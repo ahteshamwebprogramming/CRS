@@ -7,7 +7,9 @@ let RoomSelectionList = [];
 let RoomSelectionDTO1 = {};
 
 $(document).ready(function () {
-    RoomSelectionList.push({ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] });
+    //RoomSelectionList.push({ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] });
+
+    loadSelectionsFromSession();
 });
 
 // Improved popup toggle function
@@ -498,5 +500,107 @@ function AddRoomFromCard(roomTypeId, opt, price) {
             }
 
         });
+    });
+}
+
+
+
+
+
+function loadSelectionsFromSession() {
+    $.ajax({
+        type: 'GET',
+        url: '/Home/GetDataForLoadSummaryFromSession1',
+        success: function (data) {
+            // Restore previously selected dates from session
+            if (data) {
+                if (data.checkInDate) {
+                    currentDate = new Date(data.checkInDate);
+                }
+                if (data.checkOutDate) {
+                    nextDate = new Date(data.checkOutDate);
+                }
+                if (data.checkInDate && data.checkOutDate) {
+                    const pickerEl = document.getElementById('dateRangePicker');
+                    const picker = pickerEl && pickerEl._flatpickr;
+                    if (picker) {
+                        picker.setDate([currentDate, nextDate], false);
+                    } else if (pickerEl) {
+                        // Fallback in case flatpickr is not initialized yet
+                        const options = { year: 'numeric', month: 'short', day: '2-digit' };
+                        pickerEl.value = `${currentDate.toLocaleDateString('en-US', options)} to ${nextDate.toLocaleDateString('en-US', options)}`;
+                    }
+                }
+            }
+
+            if (data && data.roomSelectionList && data.roomSelectionList.length > 0) {
+                RoomSelectionList = data.roomSelectionList.map(function (item) {
+                    return {
+                        RoomNumber: item.roomNumber,
+                        Adults: item.adults,
+                        Children: item.children,
+                        RoomDetails: item.roomDetails,
+                        SelectedServices: item.selectedServices || []
+                    };
+                });
+
+                SelectedServices = (data.selectedServices || []).map(function (s) {
+                    return { Service: s.service, Price: s.price };
+                });
+
+                RoomSelections = {};
+                PaxData = [];
+                RoomSelectionList.forEach(function (item) {
+                    var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
+                    if (rt != null) {
+                        if (!RoomSelections[rt]) {
+                            RoomSelections[rt] = {
+                                count: 1,
+                                price: item.RoomDetails.price,
+                                Pax: { Adults: item.Adults, Children: item.Children }
+                            };
+                        } else {
+                            RoomSelections[rt].count++;
+                        }
+                        PaxData.push({ RoomNumber: item.RoomNumber, Adults: item.Adults, Children: item.Children });
+                    }
+                });
+
+                roomCount = RoomSelectionList.length;
+
+                const counts = {};
+                RoomSelectionList.forEach(function (item) {
+                    var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
+                    if (rt != null) {
+                        counts[rt] = (counts[rt] || 0) + 1;
+                    }
+                });
+                Object.keys(counts).forEach(function (rt) {
+                    $(`.add-bed-btn[onclick*="${rt}"]`).hide();
+                    const container = $(`.counter-container [onclick*="${rt}"]`).closest('.counter-container');
+                    container.show();
+                    $(`#RoomCount_${rt}`).text(counts[rt]);
+                });
+
+                SelectedServices.forEach(function (s) {
+                    $(`input[data-service='${s.Service}']`).prop('checked', true);
+                });
+
+                updateRoomSummaryText();
+                updateSummaryText();
+                SummaryPartialView1();
+            } else {
+                RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+                updateRoomSummaryText();
+                updateSummaryText();
+                SummaryPartialView1();
+            }
+        },
+        error: function () {
+            RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+            updateRoomSummaryText();
+            updateSummaryText();
+            SummaryPartialView1();
+        }
     });
 }
