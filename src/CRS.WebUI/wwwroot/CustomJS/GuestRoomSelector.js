@@ -533,7 +533,10 @@ function loadSelectionsFromSession() {
                 }
             }
 
-            if (data && data.roomSelectionList && data.roomSelectionList.length > 0) {
+            //if (data && data.roomSelectionList && data.roomSelectionList.length > 0) {
+            let hasRoomData = data && data.roomSelectionList && data.roomSelectionList.length > 0;
+
+            if (hasRoomData) {
                 RoomSelectionList = data.roomSelectionList.map(function (item) {
                     return {
                         RoomNumber: item.roomNumber,
@@ -567,34 +570,64 @@ function loadSelectionsFromSession() {
                 });
 
                 roomCount = RoomSelectionList.length;
-
-                const counts = {};
-                RoomSelectionList.forEach(function (item) {
-                    var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
-                    if (rt != null) {
-                        counts[rt] = (counts[rt] || 0) + 1;
-                    }
-                });
-                Object.keys(counts).forEach(function (rt) {
-                    $(`.add-bed-btn[onclick*="${rt}"]`).hide();
-                    const container = $(`.counter-container [onclick*="${rt}"]`).closest('.counter-container');
-                    container.show();
-                    $(`#RoomCount_${rt}`).text(counts[rt]);
-                });
-
-                SelectedServices.forEach(function (s) {
-                    $(`input[data-service='${s.Service}']`).prop('checked', true);
-                });
-
-                updateRoomSummaryText();
-                updateSummaryText();
-                SummaryPartialView1();
-            } else {
-                RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
-                updateRoomSummaryText();
-                updateSummaryText();
-                SummaryPartialView1();
             }
+            else {
+                RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+                roomCount = RoomSelectionList.length;
+            }
+            //const counts = {};
+            //RoomSelectionList.forEach(function (item) {
+            //    var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
+            //    if (rt != null) {
+            //        counts[rt] = (counts[rt] || 0) + 1;
+            //    }
+            //});
+            //Object.keys(counts).forEach(function (rt) {
+            //    $(`.add-bed-btn[onclick*="${rt}"]`).hide();
+            //    const container = $(`.counter-container [onclick*="${rt}"]`).closest('.counter-container');
+            //    container.show();
+            //    $(`#RoomCount_${rt}`).text(counts[rt]);
+            //});
+
+            //SelectedServices.forEach(function (s) {
+            //    $(`input[data-service='${s.Service}']`).prop('checked', true);
+            //});
+
+            let checkIn = currentDate.toISOString().split('T')[0];
+            let checkOut = nextDate.toISOString().split('T')[0];
+            RoomTypeGridPartialView(checkIn, checkOut).done(function () {
+                if (hasRoomData) {
+                    const counts = {};
+                    RoomSelectionList.forEach(function (item) {
+                        var rt = item.RoomDetails && item.RoomDetails.roomTypeId;
+                        if (rt != null) {
+                            counts[rt] = (counts[rt] || 0) + 1;
+                        }
+                    });
+                    Object.keys(counts).forEach(function (rt) {
+                        $(`.add-bed-btn[onclick*="${rt}"]`).hide();
+                        const container = $(`.counter-container [onclick*="${rt}"]`).closest('.counter-container');
+                        container.show();
+                        $(`#RoomCount_${rt}`).text(counts[rt]);
+                    });
+
+                    SelectedServices.forEach(function (s) {
+                        $(`input[data-service='${s.Service}']`).prop('checked', true);
+                    });
+
+                    $('.crsContainer').show();
+                }
+
+                updateRoomSummaryText();
+                updateSummaryText();
+                SummaryPartialView1();
+                //} else {
+                //    RoomSelectionList =[{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];
+                //    updateRoomSummaryText();
+                //    updateSummaryText();
+                //    SummaryPartialView1();
+                //}
+            });
         },
         error: function () {
             RoomSelectionList = [{ RoomNumber: 1, Adults: 1, Children: 0, SelectedServices: [] }];

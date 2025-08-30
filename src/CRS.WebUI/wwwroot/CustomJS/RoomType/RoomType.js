@@ -4,7 +4,7 @@ function RoomTypeGridPartialView(CheckInDate, CheckOutDate) {
     inputDTO.CheckInDate = CheckInDate;
     inputDTO.CheckOutDate = CheckOutDate;
 
-    $.ajax({
+    return $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: '/Home/RoomTypeGridPartialView',
@@ -152,7 +152,7 @@ function AddRoom(RoomType, Price) {
 
     });
 }
-function AddRoombtn(RoomType, Price) {   
+function AddRoombtn(RoomType, Price) {
 
     AddRoomFromCard(RoomType, 'Add', Price).then(function (status) {
         // Use item.Id as RoomType
@@ -196,7 +196,7 @@ function updateSummary() {
 }
 
 function SubRoom(RoomType) {
-    
+
     AddRoomFromCard(RoomType, 'Remove', 0).then(function (status) {
         if (RoomSelections[RoomType]) {
             RoomSelections[RoomType].count--;

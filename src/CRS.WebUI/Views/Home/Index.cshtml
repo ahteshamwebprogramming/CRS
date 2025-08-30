@@ -328,7 +328,7 @@
     nextDate.setDate(nextDate.getDate() + 1);
 
     $(document).ready(function () {
-        RoomTypeGridPartialView(currentDate.toISOString().split('T')[0], nextDate.toISOString().split('T')[0]);
+        //RoomTypeGridPartialView(currentDate.toISOString().split('T')[0], nextDate.toISOString().split('T')[0]);
         PackagesPartialView();
         $(".book-now").on("click", function () {
             const picker = document.getElementById('dateRangePicker')._flatpickr;
