@@ -6,12 +6,14 @@ using CRS.Infrastructure.ViewModels.Rooms;
 using CRS.Infrastructure.ViewModels.Summary;
 using CRS.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
+
 using Newtonsoft.Json;
 using RestSharp;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace CRS.WebUI.Controllers
@@ -254,6 +256,25 @@ namespace CRS.WebUI.Controllers
 
                 TempData.Keep("TotalPax");
             }
+            var roomTypeNames = new List<string>();
+            var summaryJson = HttpContext.Session.GetString("Summary1");
+            if (!string.IsNullOrEmpty(summaryJson))
+            {
+                var summary = JsonConvert.DeserializeObject<SummaryViewModelNew>(summaryJson);
+                if (summary?.RoomSelectionList != null)
+                {
+                    foreach (var room in summary.RoomSelectionList)
+                    {
+                        var guestCount = (room.Adults ?? 0) + (room.Children ?? 0);
+                        var roomName = room.RoomDetails?.RoomTypeName ?? "Room";
+                        for (int i = 0; i < guestCount; i++)
+                        {
+                            roomTypeNames.Add(roomName);
+                        }
+                    }
+                }
+            }
+            ViewBag.RoomTypeNames = roomTypeNames;
             return View();
         }
 

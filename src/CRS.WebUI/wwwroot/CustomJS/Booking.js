@@ -50,15 +50,58 @@ $(document).ready(function () {
         $('#hcaptchaError').hide();
 
         let isValid = true;
-        $('#bookingForm input[required][name*="Age"]').each(function () {
-            const age = parseInt($(this).val(), 10);
-            if (isNaN(age) || age < 14) {
+
+
+        const email = $('#emailInput').val().trim();
+        if (!email) {
+            $('#emailInput').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#emailInput').removeClass('is-invalid');
+        }
+
+        const phone = $('#phoneNumber').val().trim();
+        if (!phone) {
+            $('#phoneNumber').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#phoneNumber').removeClass('is-invalid');
+        }
+        const country = $('input[name="Country"]').val().trim();
+        if (!country) {
+            $('input[name="Country"]').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('input[name="Country"]').removeClass('is-invalid');
+        }
+
+        const zip = $('input[name="ZipCode"]').val().trim();
+        if (!zip) {
+            $('input[name="ZipCode"]').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('input[name="ZipCode"]').removeClass('is-invalid');
+        }
+
+        $('#bookingForm input[name*="FirstName"]').each(function () {
+            if (!$(this).val().trim()) {
                 $(this).addClass('is-invalid');
                 isValid = false;
             } else {
                 $(this).removeClass('is-invalid');
             }
         });
+       
+
+        //$('#bookingForm input[required][name*="Age"]').each(function () {
+        //    const age = parseInt($(this).val(), 10);
+        //    if (isNaN(age) || age < 14) {
+        //        $(this).addClass('is-invalid');
+        //        isValid = false;
+        //    } else {
+        //        $(this).removeClass('is-invalid');
+        //    }
+        //});
         if (!isValid) return;
 
         const formData = $(this).serializeArray();

@@ -1,8 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
+@{ 
     int totalPax = ViewBag.TotalPax ?? 0;
+    var roomTypeNames = ViewBag.RoomTypeNames as System.Collections.Generic.List<string> ?? new System.Collections.Generic.List<string>();
 }
 
 
@@ -175,14 +176,14 @@
                         @for (int i = 0; i < totalPax; i++)
                         {
                             <div class="guestListOuterBlock">
-                                <h6>@($"Guest {i + 1}")</h6>
+                                <h6>@($"Guest {i + 1} - {(roomTypeNames.Count > i ? roomTypeNames[i] : string.Empty)}")</h6>
                                 <div class="list_form guestList">
 
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="Guests[@i].FirstName" placeholder="First Name" id="guestFirstName_@i" name="Guests[@i].FirstName" required value="" />
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="Guests[@i].LastName" placeholder="Last Name" id="guestLastName_@i" name="Guests[@i].LastName" required value="" />
+                                        <input type="text" class="form-control" name="Guests[@i].LastName" placeholder="Last Name" id="guestLastName_@i" name="Guests[@i].LastName" value="" />
                                     </div>
                                     <div class="form-group ">
 
@@ -192,7 +193,7 @@
 
                                         <div class="genderSelection">
 
-                                            <select class="form-control" id="guestGender_@i" name="Guests[@i].Gender" required>
+                                            <select class="form-control" id="guestGender_@i" name="Guests[@i].Gender" >
                                                 <option value="" disabled selected>Gender</option>
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
@@ -206,7 +207,7 @@
 
                                         <div class="ageSelector">
 
-                                            <input type="number" placeholder="Age" name="Guests[@i].Age" class="form-control" id="guestAge_@i" name="Guests[@i].Age" required min="14" value="" />
+                                            <input type="number" placeholder="Age" name="Guests[@i].Age" class="form-control" id="guestAge_@i" name="Guests[@i].Age" min="14" value="" />
                                         </div>
 
 
@@ -223,21 +224,22 @@
                         </div>
                         <div class="list_form ">
                             <div class="form-group col-md-12">
-                                <label for="checkInDate">Address</label>
-                                <textarea rows="3" class="form-control" name="Address"></textarea>
+                                <label for="address">Address</label>
+                                <textarea rows="3" class="form-control" name="Address" id="address"></textarea>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="checkInDate">Country</label>
-                                <input type="text" name="Country" class="form-control" id="checkInDate" required value="">
+                                <label for="country">Country</label>
+                                <input type="text" name="Country" class="form-control" id="country" required value="">
                             </div>
 
 
                             <div class="form-group col-md-4">
-                                <label for="checkOutDate">City</label>
-                                <input type="text" name="City" class="form-control" id="checkOutDate" required value="">
-                            </div>  <div class="form-group col-md-4">
-                                <label for="checkOutDate">Zip/Postal Code</label>
-                                <input type="text" name="ZipCode" class="form-control" id="checkOutDate" required value="">
+                                <label for="city">City</label>
+                                <input type="text" name="City" class="form-control" id="city" required value="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="zipCode">Zip/Postal Code</label>
+                                <input type="text" name="ZipCode" class="form-control" id="zipCode" required value="">
                             </div>
                         </div>
 
