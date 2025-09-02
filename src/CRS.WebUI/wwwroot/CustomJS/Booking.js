@@ -41,17 +41,14 @@ $(document).ready(function () {
     // Booking form submit with payment
     $('#bookingForm').on('submit', async function (e) {
         e.preventDefault();
-
-        const hcaptchaResponse = hcaptcha.getResponse();
-        //if (!hcaptchaResponse) {
-        //    $('#hcaptchaError').show();
-        //    return;
-        //}
         $('#hcaptchaError').hide();
-
         let isValid = true;
-
-
+        const hcaptchaResponse = hcaptcha.getResponse();
+        if (!hcaptchaResponse) {
+            $('#hcaptchaError').show();
+            isValid = false;
+            
+        }
         const email = $('#emailInput').val().trim();
         if (!email) {
             $('#emailInput').addClass('is-invalid');
