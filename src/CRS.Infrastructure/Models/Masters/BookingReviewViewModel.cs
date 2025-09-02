@@ -6,5 +6,7 @@ namespace CRS.Infrastructure.Models.Masters
     {
         public BookingDTO Booking { get; set; }
         public SummaryInputDTO Summary { get; set; }
+
+        public SummaryViewModelNew Summary1 { get; set; }
     }
 }

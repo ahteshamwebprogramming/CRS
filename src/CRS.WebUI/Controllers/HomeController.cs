@@ -171,7 +171,7 @@ namespace CRS.WebUI.Controllers
                 if (sessionInputDTO.NoOfNights <= 0)
                     sessionInputDTO.NoOfNights = 1;
             }
-                
+
 
             if (inputDTO.RoomSelectionList != null && inputDTO.RoomSelectionList.Any())
             {
@@ -407,14 +407,13 @@ namespace CRS.WebUI.Controllers
         public IActionResult ReviewPayment()
         {
             var bookingJson = HttpContext.Session.GetString("BookingData");
-            var summaryJson = HttpContext.Session.GetString("Summary");
-            var summary = JsonConvert.DeserializeObject<SummaryInputDTO>(summaryJson);
+            var summaryJson = HttpContext.Session.GetString("Summary1");
+            var summary = JsonConvert.DeserializeObject<SummaryViewModelNew>(summaryJson);
             var booking = JsonConvert.DeserializeObject<BookingDTO>(bookingJson);
-            var booking1 = summary.BookingDetails;
             var viewModel = new BookingReviewViewModel
             {
                 Booking = booking,
-                Summary = summary
+                Summary1 = summary
             };
             return View(viewModel);
         }

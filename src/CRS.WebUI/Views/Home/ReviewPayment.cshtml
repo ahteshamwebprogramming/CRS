@@ -1,10 +1,13 @@
 ﻿@model CRS.Infrastructure.Models.Masters.BookingReviewViewModel
+@using System.Linq
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
     var i = 1;
+    var totalRooms = Model.Summary.SelectedRooms?.Sum(r => r.NoOfRooms) ?? Model.Summary.NoOfRooms ?? 0;
+    var totalAdults = Model.Summary.SelectedRooms?.Sum(r => r.Adults * r.NoOfRooms) ?? 0;
 }
 
 <style>
@@ -289,7 +292,7 @@
             @{
                 //var a = Model.Summary.SelectedRooms.
             }
-            <p><strong>Rooms:</strong> @Model.Summary.NoOfRooms &nbsp; <strong>Adults:</strong> 2  <strong>No Of Stays:</strong>  &nbsp;@Model.Summary.NoOfNights</p>
+            <p><strong>Rooms:</strong> @totalRooms &nbsp; <strong>Adults:</strong> @totalAdults &nbsp; <strong>No Of Stay:</strong> @Model.Summary.NoOfNights</p>
             <div class="dates">
                 <div class="date-box">
                     <div class="label">Check-In</div>
