@@ -13,16 +13,19 @@
         font-weight: 700;
         color: #000;
     }
+
     .button-group {
         display: flex;
+        flex-direction: column;
         gap: 10px;
         margin-top: 15px;
     }
 
-    .button-group .button {
-        flex: 1;
-        margin-top: 0;
-    }
+        .button-group .button {
+            display: block;
+            width: 100%;
+            margin-top: 0;
+        }
 </style>
 <h2 class="mb-3">Summary</h2>
 
@@ -79,7 +82,7 @@
                         }
                     </div>
                 }
-                
+
 
 
 
@@ -131,12 +134,12 @@
 
     }
 
-    
+
 
     @* <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a> *@
     @* <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a> *@
-   <div class="button-group">
-        <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a>
-        <a href='@Url.Action("Index", "Home")' class="button">Home</a>
+    <div class="button-group">        
+        <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Confirm Booking</a>
+        <a href='@Url.Action("Index", "Home")' class="button">Change Date</a>
     </div>
 </div>

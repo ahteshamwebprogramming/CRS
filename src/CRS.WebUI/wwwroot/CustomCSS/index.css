@@ -12,6 +12,10 @@
     height: 100%
 }
 
+a:hover {
+    color: #ffd600;
+}
+
 .date-slider-container {
     position: relative;
     display: flex;
