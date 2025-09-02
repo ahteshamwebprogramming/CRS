@@ -6,8 +6,9 @@
 
 @{
     var i = 1;
-    var totalRooms = Model.Summary.SelectedRooms?.Sum(r => r.NoOfRooms) ?? Model.Summary.NoOfRooms ?? 0;
-    var totalAdults = Model.Summary.SelectedRooms?.Sum(r => r.Adults * r.NoOfRooms) ?? 0;
+    var totalRooms = Model.Summary1?.RoomSelectionList?.Count ?? 0;
+    var totalAdults = Model.Summary1?.RoomSelectionList?.Sum(r => r.Adults ?? 0) ?? 0;
+    var totalChildren = Model.Summary1?.RoomSelectionList?.Sum(r => r.Children ?? 0) ?? 0;
 }
 
 <style>
@@ -290,20 +291,20 @@
             <h4>St. Charles Hotel</h4>
             <p class="location">Hudson NY</p>
             @{
-                //var a = Model.Summary.SelectedRooms.
+                //var a = Model.Summary1?.RoomSelectionList;
             }
-            <p><strong>Rooms:</strong> @totalRooms &nbsp; <strong>Adults:</strong> @totalAdults &nbsp; <strong>No Of Stay:</strong> @Model.Summary.NoOfNights</p>
+            <p><strong>Rooms:</strong> @totalRooms &nbsp; <strong>Adults:</strong> @totalAdults &nbsp; <strong>Children:</strong> @totalChildren &nbsp; <strong>No Of Nights:</strong> @Model.Summary1?.NoOfNights</p>
             <div class="dates">
                 <div class="date-box">
                     <div class="label">Check-In</div>
-                    <div class="date">@Model.Summary.CheckInDate?.Day</div>
-                    <div class="month">@Model.Summary.CheckInDate?.ToString("MMMM")</div>
+                    <div class="date">@Model.Summary1?.CheckInDate?.Day</div>
+                    <div class="month">@Model.Summary1?.CheckInDate?.ToString("MMMM")</div>
                 </div>
                 <span class="separator">-</span>
                 <div class="date-box">
                     <div class="label">Check-Out</div>
-                    <div class="date">@Model.Summary.CheckOutDate?.Day</div>
-                    <div class="month">@Model.Summary.CheckOutDate?.ToString("MMMM")</div>
+                    <div class="date">@Model.Summary1?.CheckOutDate?.Day</div>
+                    <div class="month">@Model.Summary1?.CheckOutDate?.ToString("MMMM")</div>
                 </div>
             </div>
         </div>
