@@ -88,6 +88,8 @@ namespace CRS.WebUI.Controllers
             if (inputDTO.CheckInDate.HasValue && inputDTO.CheckOutDate.HasValue)
             {
                 inputDTO.NoOfNights = (inputDTO.CheckOutDate.Value - inputDTO.CheckInDate.Value).Days;
+                if (inputDTO.NoOfNights <= 0)
+                    inputDTO.NoOfNights = 1;
             }
             var res = await _roomsAPIController.GetSummary(inputDTO);
             if (res != null && ((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200)

@@ -84,7 +84,11 @@ namespace CRS.WebUI.Controllers
                 sessionInputDTO.CheckOutDate = inputDTO.CheckOutDate;
 
             if (sessionInputDTO.CheckInDate.HasValue && sessionInputDTO.CheckOutDate.HasValue)
+            {
                 sessionInputDTO.NoOfNights = (sessionInputDTO.CheckOutDate.Value - sessionInputDTO.CheckInDate.Value).Days;
+                if (sessionInputDTO.NoOfNights <= 0)
+                    sessionInputDTO.NoOfNights = 1;
+            }
 
             if (inputDTO.RoomSelections != null && inputDTO.RoomSelections.Any())
             {
@@ -162,7 +166,12 @@ namespace CRS.WebUI.Controllers
                 sessionInputDTO.CheckOutDate = inputDTO.CheckOutDate;
 
             if (sessionInputDTO.CheckInDate.HasValue && sessionInputDTO.CheckOutDate.HasValue)
+            {
                 sessionInputDTO.NoOfNights = (sessionInputDTO.CheckOutDate.Value - sessionInputDTO.CheckInDate.Value).Days;
+                if (sessionInputDTO.NoOfNights <= 0)
+                    sessionInputDTO.NoOfNights = 1;
+            }
+                
 
             if (inputDTO.RoomSelectionList != null && inputDTO.RoomSelectionList.Any())
             {
@@ -341,6 +350,8 @@ namespace CRS.WebUI.Controllers
                     if (inputDTO.CheckInDate.HasValue && inputDTO.CheckOutDate.HasValue)
                     {
                         inputDTO.NoOfNights = (inputDTO.CheckOutDate.Value - inputDTO.CheckInDate.Value).Days;
+                        if (inputDTO.NoOfNights <= 0)
+                            inputDTO.NoOfNights = 1;
                     }
                     //var res = await _roomsAPIController.GetSummary(inputDTO);
                     //if (res != null && ((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200)
@@ -362,6 +373,8 @@ namespace CRS.WebUI.Controllers
             if (inputDTO.CheckInDate.HasValue && inputDTO.CheckOutDate.HasValue)
             {
                 inputDTO.NoOfNights = (inputDTO.CheckOutDate.Value - inputDTO.CheckInDate.Value).Days;
+                if (inputDTO.NoOfNights <= 0)
+                    inputDTO.NoOfNights = 1;
             }
             var res = await _roomsAPIController.GetSummary(inputDTO);
             if (res != null && ((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200)
