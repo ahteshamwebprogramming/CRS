@@ -402,12 +402,12 @@
 
 .rows {
     overflow: hidden;
-    max-height: 500px; /* Height for 4 rows */
+    max-height: 1200px; /* Show first 3 cards before expanding */
     transition: max-height 0.3s ease-in-out;
 }
 
-    .rows.expanded {
-        max-height: 1200px; /* Height for 8 rows */
+    .rows.expanded {        
+        max-height: 5000px; /* Expanded height to reveal all cards */
     }
 
 
@@ -417,7 +417,8 @@
         .rows.expanded .summaryPackage {
             overflow-y: auto; /* Enables scrolling */
             overflow-x: hidden; /* Prevents horizontal scroll */
-            max-height: 900px; /* Limit height */
+            /*max-height: 900px;*/ /* Limit height */
+            max-height: 5000px; /* Expanded height to reveal all cards */
         }
 
             .rows.expanded .packageDate::-webkit-scrollbar,
