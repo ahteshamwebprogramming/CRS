@@ -456,6 +456,15 @@ namespace CRS.WebUI.Controllers
             HttpContext.Session.Remove("Summary1");
             return Ok();
         }
+        public IActionResult PaymentSuccess()
+        {
+            return View();
+        }
+        public IActionResult ClearSessionAndRedirect()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public async Task<IActionResult> ProcessPaymentAndSave([FromBody] BookingDTO model)

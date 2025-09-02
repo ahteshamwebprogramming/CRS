@@ -370,7 +370,7 @@
             <label for="agree" class="small">I agree to the Terms & Cancellation Policy.</label>
         </div>
 
-        <button>Proceed to Payment</button>
+        <button id="proceedPayment" type="button">Proceed to Payment</button>
     </div>
 
 
@@ -393,6 +393,11 @@
     <script>
         $(document).ready(function(){
                 LoadSummaryPartialFromSession();
+
+                $('#proceedPayment').on('click', function(){
+                    window.location.href='@Url.Action("PaymentSuccess", "Home")';
+                });
+
         });
                 function LoadSummaryPartialFromSession() {
             $.ajax({
