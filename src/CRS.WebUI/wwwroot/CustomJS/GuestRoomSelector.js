@@ -243,7 +243,8 @@ function updateSummaryDisplay() {
 
 // Toggle service selection
 function toggleService(checkbox, service, price) {
-    const serviceObj = { Service: service, Price: price };
+    let serviceId = $(checkbox).attr("data-service-id");
+    const serviceObj = { Service: service, Price: price, Id: serviceId };
     const wasChecked = checkbox.dataset.checked === 'true';
     if (checkbox.checked) {
         // If already checked, add service only to rooms missing it

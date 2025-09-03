@@ -4,6 +4,7 @@ using CRS.Infrastructure.Models.Masters;
 using CRS.Infrastructure.ViewModels.Summary;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace CRS.WebUI.Controllers
 {
@@ -13,11 +14,13 @@ namespace CRS.WebUI.Controllers
         private readonly IEmailService _emailService;
         private readonly RoomsAPIController _roomsAPIController;
 
-        public ReservationController(ILogger<ReservationController> logger, RoomsAPIController roomsAPIController, IEmailService emailService)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public ReservationController(ILogger<ReservationController> logger, RoomsAPIController roomsAPIController, IEmailService emailService, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _roomsAPIController = roomsAPIController;
             _emailService = emailService;
+            _httpClientFactory = httpClientFactory;
         }
         public IActionResult Index()
         {
@@ -98,5 +101,48 @@ namespace CRS.WebUI.Controllers
             }
             return PartialView("_reservation/_summary", dto);
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> PostBookingData()
+        {
+            var bookingJson = HttpContext.Session.GetString("BookingData");
+            var summaryJson = HttpContext.Session.GetString("Summary1");
+
+            if (string.IsNullOrEmpty(bookingJson) || string.IsNullOrEmpty(summaryJson))
+            {
+                return BadRequest(new { success = false, message = "Session data missing" });
+            }
+
+            var booking = JsonConvert.DeserializeObject<BookingDTO>(bookingJson);
+            var summary = JsonConvert.DeserializeObject<SummaryViewModelNew>(summaryJson);
+
+            var payload = new { booking, summary };
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient();
+                var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+                // TODO: replace placeholder URL with actual endpoint of external tool
+                var response = await client.PostAsync("https://example.com/api/booking", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("External API returned status {StatusCode}", response.StatusCode);
+                    return StatusCode((int)response.StatusCode, new { success = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to post booking data");
+                return StatusCode(500, new { success = false });
+            }
+
+            return Ok(new { success = true, redirectUrl = Url.Action("PaymentSuccess", "Home") });
+        }
+
+
+
     }
 }

@@ -26,6 +26,7 @@ namespace CRS.Infrastructure.ViewModels.Summary
     }
     public class ServiceDTO
     {
+        public int? Id { get; set; }
         public string Service { get; set; } = string.Empty;
         public decimal Price { get; set; }
     }

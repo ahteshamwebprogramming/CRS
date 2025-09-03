@@ -378,7 +378,7 @@
     </div>
 
     <!-- Payment Section -->
-   @*  <div class="payment-section">
+    @*  <div class="payment-section">
         <div class="total text-center">Total Payment: $3,887</div>
         <div class="couponFeild">
             <label for="coupon">Coupon Code</label>
@@ -396,7 +396,24 @@
                 LoadSummaryPartialFromSession();
 
                 $('#proceedPayment').on('click', function(){
-                    window.location.href='@Url.Action("PaymentSuccess", "Home")';
+                    // window.location.href='@Url.Action("PaymentSuccess", "Home")';
+
+                     $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("PostBookingData", "Reservation")',
+                        success: function(res){
+                            if(res.success){
+                                window.location.href = res.redirectUrl;
+                            } else {
+                                alert('Unable to process booking.');
+                            }
+                        },
+                        error: function(){
+                            alert('Unable to process booking.');
+                        }
+                    });
+
+
                 });
 
         });

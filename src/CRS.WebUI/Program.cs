@@ -18,6 +18,7 @@ builder.Services.AddScoped<DapperDBContext>();
 builder.Services.AddScoped<DapperEHRMSDBContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(typeof(MapperInitializer));
 builder.Services.AddHttpContextAccessor();
