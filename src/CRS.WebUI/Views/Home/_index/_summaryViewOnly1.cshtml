@@ -138,8 +138,11 @@
 
     @* <a href="#" onclick="submitPaxDataAjax()" class="button">Review booking</a> *@
     @* <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Review booking</a> *@
-    <div class="button-group">        
-        <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Confirm Booking</a>
+    @*<div class="button-group">        
+        <a href="javascript:void(0);" onclick="submitBookingForm()" class="button">Confirm Booking</a>*@
+
+    <div class="button-group">
+        <a href="javascript:void(0);" onclick="openLoginModal()" class="button">Confirm Booking</a>
         <a href='@Url.Action("Index", "Home")' class="button">Change Date</a>
     </div>
 </div>

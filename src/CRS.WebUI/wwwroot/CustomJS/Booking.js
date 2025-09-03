@@ -41,65 +41,7 @@ $(document).ready(function () {
     // Booking form submit with payment
     $('#bookingForm').on('submit', async function (e) {
         e.preventDefault();
-        $('#hcaptchaError').hide();
-        let isValid = true;
-        const hcaptchaResponse = hcaptcha.getResponse();
-        if (!hcaptchaResponse) {
-            $('#hcaptchaError').show();
-            isValid = false;
-            
-        }
-        const email = $('#emailInput').val().trim();
-        if (!email) {
-            $('#emailInput').addClass('is-invalid');
-            isValid = false;
-        } else {
-            $('#emailInput').removeClass('is-invalid');
-        }
-
-        const phone = $('#phoneNumber').val().trim();
-        if (!phone) {
-            $('#phoneNumber').addClass('is-invalid');
-            isValid = false;
-        } else {
-            $('#phoneNumber').removeClass('is-invalid');
-        }
-        const country = $('input[name="Country"]').val().trim();
-        if (!country) {
-            $('input[name="Country"]').addClass('is-invalid');
-            isValid = false;
-        } else {
-            $('input[name="Country"]').removeClass('is-invalid');
-        }
-
-        const zip = $('input[name="ZipCode"]').val().trim();
-        if (!zip) {
-            $('input[name="ZipCode"]').addClass('is-invalid');
-            isValid = false;
-        } else {
-            $('input[name="ZipCode"]').removeClass('is-invalid');
-        }
-
-        $('#bookingForm input[name*="FirstName"]').each(function () {
-            if (!$(this).val().trim()) {
-                $(this).addClass('is-invalid');
-                isValid = false;
-            } else {
-                $(this).removeClass('is-invalid');
-            }
-        });
-       
-
-        //$('#bookingForm input[required][name*="Age"]').each(function () {
-        //    const age = parseInt($(this).val(), 10);
-        //    if (isNaN(age) || age < 14) {
-        //        $(this).addClass('is-invalid');
-        //        isValid = false;
-        //    } else {
-        //        $(this).removeClass('is-invalid');
-        //    }
-        //});
-        if (!isValid) return;
+        if (!validateBookingForm()) return;
 
         const formData = $(this).serializeArray();
         const jsonData = serializeFormToJson(formData);
@@ -334,3 +276,86 @@ function UpdateSummaryInSession() {
 function submitBookingForm() {
     $('#bookingForm').trigger('submit');
 }
+
+
+function validateBookingForm() {
+    $('#hcaptchaError').hide();
+    let isValid = true;
+    const hcaptchaResponse = hcaptcha.getResponse();
+    if (!hcaptchaResponse) {
+        $('#hcaptchaError').show();
+        isValid = false;
+    }
+
+    const email = $('#emailInput').val().trim();
+    if (!email) {
+        $('#emailInput').addClass('is-invalid');
+        isValid = false;
+    } else {
+        $('#emailInput').removeClass('is-invalid');
+    }
+
+    const phone = $('#phoneNumber').val().trim();
+    if (!phone) {
+        $('#phoneNumber').addClass('is-invalid');
+        isValid = false;
+    } else {
+        $('#phoneNumber').removeClass('is-invalid');
+    }
+
+    const country = $('input[name="Country"]').val().trim();
+    if (!country) {
+        $('input[name="Country"]').addClass('is-invalid');
+        isValid = false;
+    } else {
+        $('input[name="Country"]').removeClass('is-invalid');
+    }
+
+    const zip = $('input[name="ZipCode"]').val().trim();
+    if (!zip) {
+        $('input[name="ZipCode"]').addClass('is-invalid');
+        isValid = false;
+    } else {
+        $('input[name="ZipCode"]').removeClass('is-invalid');
+    }
+
+    $('#bookingForm input[name*="FirstName"]').each(function () {
+        if (!$(this).val().trim()) {
+            $(this).addClass('is-invalid');
+            isValid = false;
+        } else {
+            $(this).removeClass('is-invalid');
+        }
+    });
+
+    //$('#bookingForm input[required][name*="Age"]').each(function () {
+    //    const age = parseInt($(this).val(), 10);
+    //    if (isNaN(age) || age < 14) {
+    //        $(this).addClass('is-invalid');
+    //        isValid = false;
+    //    } else {
+    //        $(this).removeClass('is-invalid');
+    //    }
+    //});
+
+    return isValid;
+}
+function openLoginModal() {
+    if (!validateBookingForm()) return;
+    $('#loginModal').modal('show');
+}
+
+$(document).on('submit', '#loginForm', function (e) {
+    e.preventDefault();
+    $('#loginModal').modal('hide');
+    submitBookingForm();
+});
+$(document).on('submit', '#registerForm', function (e) {
+    e.preventDefault();
+    $('#loginModal').modal('hide');
+    submitBookingForm();
+});
+$(document).on('click', '#guestCheckout', function () {
+    $('#loginModal').modal('hide');
+    submitBookingForm();
+});
