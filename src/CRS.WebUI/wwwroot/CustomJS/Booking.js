@@ -5,7 +5,7 @@ $(document).ready(function () {
     LoadSummaryPartialFromSession();
     LoadSummaryPartialFromSession1();
     generateCaptcha();
-
+    loadGenders();
     // Email Verification Flow
     $('#emailInput').on('input', function () {
         const email = $(this).val();
@@ -197,6 +197,26 @@ function LoadSummaryPartialFromSession1() {
             console.error("Error loading summary from session", result.responseText);
         }
     });
+}
+function loadGenders() {
+    fetch(window.apiBaseUrl + '/api/Gender/GenderList')
+        .then(response => response.json())
+        .then(data => {
+            const options = data.map(g => {
+                const text = g.genderName || g.name || g;
+                return `<option value="${text}">${text}</option>`;
+            });
+            $('select[id^="guestGender_"]').each(function () {
+                const select = $(this);
+                const selected = select.val();
+                select.empty().append('<option value="" disabled selected>Gender</option>');
+                options.forEach(opt => select.append(opt));
+                if (selected) {
+                    select.val(selected);
+                }
+            });
+        })
+        .catch(err => console.error('Failed to load genders', err));
 }
 function PackagesTaskView() {
 
