@@ -52,7 +52,7 @@ $(document).ready(function () {
 
         try {
             //const response = await fetch('/Home/ProcessPaymentAndSave', {
-                const response = await fetch('/Home/SubmitBooking', {
+            const response = await fetch('/Home/SubmitBooking', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(jsonData)
@@ -203,8 +203,9 @@ function loadGenders() {
         .then(response => response.json())
         .then(data => {
             const options = data.map(g => {
-                const text = g.genderName || g.name || g;
-                return `<option value="${text}">${text}</option>`;
+                const text = g.gender;
+                const key = g.id;
+                return `<option value="${key}">${text}</option>`;
             });
             $('select[id^="guestGender_"]').each(function () {
                 const select = $(this);
