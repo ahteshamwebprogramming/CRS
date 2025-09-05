@@ -468,8 +468,9 @@ namespace CRS.WebUI.Controllers
             HttpContext.Session.Remove("Summary1");
             return Ok();
         }
-        public IActionResult PaymentSuccess()
+        public IActionResult PaymentSuccess(string? bookingId)
         {
+            ViewBag.BookingId = bookingId;
             return View();
         }
         public IActionResult ClearSessionAndRedirect()

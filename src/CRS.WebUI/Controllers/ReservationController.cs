@@ -5,7 +5,8 @@ using CRS.Infrastructure.ViewModels.Summary;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
-
+using Microsoft.Extensions.Configuration;
+using CRS.Infrastructure.ViewModels.Reservation;
 namespace CRS.WebUI.Controllers
 {
     public class ReservationController : Controller
@@ -15,12 +16,13 @@ namespace CRS.WebUI.Controllers
         private readonly RoomsAPIController _roomsAPIController;
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public ReservationController(ILogger<ReservationController> logger, RoomsAPIController roomsAPIController, IEmailService emailService, IHttpClientFactory httpClientFactory)
+        private readonly IConfiguration _configuration;
+        public ReservationController(ILogger<ReservationController> logger, RoomsAPIController roomsAPIController, IEmailService emailService, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _roomsAPIController = roomsAPIController;
             _emailService = emailService;
-            _httpClientFactory = httpClientFactory;
+            _httpClientFactory = httpClientFactory; _configuration = configuration;
         }
         public IActionResult Index()
         {
@@ -119,19 +121,21 @@ namespace CRS.WebUI.Controllers
             var summary = JsonConvert.DeserializeObject<SummaryViewModelNew>(summaryJson);
 
             var payload = new { booking, summary };
-
+            RegisterGuestResponse? apiResponse = null;
             try
             {
                 var client = _httpClientFactory.CreateClient();
                 var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-                // TODO: replace placeholder URL with actual endpoint of external tool
-                var response = await client.PostAsync("https://example.com/api/booking", content);
+                var baseUrl = _configuration["ApiBaseUrl"]?.TrimEnd('/');
+                var response = await client.PostAsync($"{baseUrl}/api/Guests/RegisterGuest", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
                     _logger.LogError("External API returned status {StatusCode}", response.StatusCode);
                     return StatusCode((int)response.StatusCode, new { success = false });
                 }
+                var resultJson = await response.Content.ReadAsStringAsync();
+                apiResponse = JsonConvert.DeserializeObject<RegisterGuestResponse>(resultJson);
             }
             catch (Exception ex)
             {
@@ -139,7 +143,8 @@ namespace CRS.WebUI.Controllers
                 return StatusCode(500, new { success = false });
             }
 
-            return Ok(new { success = true, redirectUrl = Url.Action("PaymentSuccess", "Home") });
+            var bookingId = apiResponse?.GroupId?.ToString();
+            return Ok(new { success = true, redirectUrl = Url.Action("PaymentSuccess", "Home", new { bookingId }) });
         }
 
 
