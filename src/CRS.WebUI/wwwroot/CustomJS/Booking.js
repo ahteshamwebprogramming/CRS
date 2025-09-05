@@ -7,6 +7,7 @@ $(document).ready(function () {
     generateCaptcha();
     loadGenders();
     loadCountries();
+    loadCities();
     // Email Verification Flow
     $('#emailInput').on('input', function () {
         const email = $(this).val();
@@ -146,7 +147,7 @@ $(document).ready(function () {
                 const simpleMatch = item.name.match(/^([a-zA-Z_][a-zA-Z0-9_]*)$/);
                 if (simpleMatch) {
                     const propertyName = simpleMatch[1];
-                    if (propertyName === 'CountryId') {
+                    if (propertyName === 'CountryId' || propertyName === 'CityId') {
                         data[propertyName] = item.value ? parseInt(item.value) : null;
                     } else {
                         data[propertyName] = item.value;
@@ -244,13 +245,42 @@ function loadCountries() {
             options.forEach(opt => select.append(opt));
             if (selected) {
                 select.val(selected);
+                loadCities(selected);
+            } else {
+                loadCities();
             }
             select.on('change', function () {
+                const countryId = $(this).val();
                 const text = $(this).find('option:selected').text();
                 $('#countryName').val(text);
+                loadCities(countryId);
             });
         })
         .catch(err => console.error('Failed to load countries', err));
+}
+function loadCities(countryId) {
+    const select = $('#cityId');
+    if (!countryId) {
+        select.empty().append('<option value="" disabled selected>City</option>');
+        $('#cityName').val('');
+        return;
+    }
+    fetch(window.apiBaseUrl + '/api/Guests/FetchCityByCountryId?CountryId=' + countryId)
+        .then(response => response.json())
+        .then(data => {
+            const options = data.map(c => `<option value="${c.id}">${c.name}</option>`);
+            const selected = select.val();
+            select.empty().append('<option value="" disabled selected>City</option>');
+            options.forEach(opt => select.append(opt));
+            if (selected) {
+                select.val(selected);
+            }
+            select.off('change').on('change', function () {
+                const text = $(this).find('option:selected').text();
+                $('#cityName').val(text);
+            });
+        })
+        .catch(err => console.error('Failed to load cities', err));
 }
 function PackagesTaskView() {
 

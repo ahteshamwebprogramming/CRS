@@ -46,7 +46,7 @@ namespace CRS.WebUI.Controllers
                 PaxPerRoom = new List<PaxInfo> { new PaxInfo { Adults = 2 } }
             };
             //dto.Booking = new BookingDTO { Address = "NA", City = "Dehradun", Country = "India", Guests = new List<GuestDetailsDTO> { new GuestDetailsDTO { FirstName = "Mohd", LastName = "Ahtesham" } } };
-            dto.Booking = new BookingDTO { Address = "NA", City = "Dehradun", Country = "India", CountryId = 1, Guests = new List<GuestDetailsDTO> { new GuestDetailsDTO { FirstName = "Mohd", LastName = "Ahtesham" } } };
+            dto.Booking = new BookingDTO { Address = "NA", City = "Dehradun", Country = "India", CountryId = 1, CityId = 1, Guests = new List<GuestDetailsDTO> { new GuestDetailsDTO { FirstName = "Mohd", LastName = "Ahtesham" } } };
             return View(dto);
         }
         public IActionResult Confirmation1()
@@ -68,7 +68,7 @@ namespace CRS.WebUI.Controllers
                 NoOfRooms = 1,
                 PaxPerRoom = new List<PaxInfo> { new PaxInfo { Adults = 2 } }
             };
-            dto.Booking = new BookingDTO { Address = "NA", City = "Dehradun", Country = "India", CountryId = 1, Guests = new List<GuestDetailsDTO> { new GuestDetailsDTO { FirstName = "Mohd", LastName = "Ahtesham" } } };
+            dto.Booking = new BookingDTO { Address = "NA", City = "Dehradun", Country = "India", CountryId = 1, CityId = 1, Guests = new List<GuestDetailsDTO> { new GuestDetailsDTO { FirstName = "Mohd", LastName = "Ahtesham" } } };
 
             return View(dto);
         }

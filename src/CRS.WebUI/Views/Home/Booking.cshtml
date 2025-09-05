@@ -234,8 +234,11 @@
 
 
                             <div class="form-group col-md-4">
-                                <label for="city">City</label>
-                                <input type="text" name="City" class="form-control" id="city" required value="">
+                                <label for="cityId">City</label>
+                                <select name="CityId" class="form-control" id="cityId" required>
+                                    <option value="" disabled selected>City</option>
+                                </select>
+                                <input type="hidden" id="cityName" name="City" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="zipCode">Zip/Postal Code</label>
