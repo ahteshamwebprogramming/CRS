@@ -133,8 +133,8 @@ $(document).ready(function () {
                     data[arrayName][index] = {};
                 }
 
-                // Set the property value (convert Age to number)
-                if (propertyName === 'Age') {
+                // Set the property value (convert Age and GenderId to number)
+                if (propertyName === 'Age' || propertyName === 'GenderId') {
                     data[arrayName][index][propertyName] = item.value ? parseInt(item.value) : null;
                 } else {
                     data[arrayName][index][propertyName] = item.value;
@@ -215,6 +215,11 @@ function loadGenders() {
                 if (selected) {
                     select.val(selected);
                 }
+                select.on('change', function () {
+                    const idx = this.id.split('_')[1];
+                    const text = $(this).find('option:selected').text();
+                    $('#guestGenderName_' + idx).val(text);
+                });
             });
         })
         .catch(err => console.error('Failed to load genders', err));

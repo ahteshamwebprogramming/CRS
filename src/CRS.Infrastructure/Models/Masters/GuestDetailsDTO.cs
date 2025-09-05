@@ -12,7 +12,7 @@ namespace CRS.Infrastructure.Models.Masters
 
         public string? MiddleName { get; set; }
 
-       
+        public int? GenderId { get; set; }
         public string? Gender { get; set; }
 
         public int? Age { get; set; }
