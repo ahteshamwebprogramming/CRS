@@ -15,6 +15,8 @@ namespace CRS.Infrastructure.Models.Masters
        
         public string Address { get; set; }
 
+        public int? CountryId { get; set; }
+
         [Required]
         public string Country { get; set; }
 

@@ -225,8 +225,11 @@
                                 <textarea rows="3" class="form-control" name="Address" id="address"></textarea>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="country">Country</label>
-                                <input type="text" name="Country" class="form-control" id="country" required value="">
+                                <label for="countryId">Country</label>
+                                <select name="CountryId" class="form-control" id="countryId">
+                                    <option value="" disabled selected>Country</option>
+                                </select>
+                                <input type="hidden" id="countryName" name="Country" />
                             </div>
 
 

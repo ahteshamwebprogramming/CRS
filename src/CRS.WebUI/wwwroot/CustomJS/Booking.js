@@ -6,6 +6,7 @@ $(document).ready(function () {
     LoadSummaryPartialFromSession1();
     generateCaptcha();
     loadGenders();
+    loadCountries();
     // Email Verification Flow
     $('#emailInput').on('input', function () {
         const email = $(this).val();
@@ -145,7 +146,11 @@ $(document).ready(function () {
                 const simpleMatch = item.name.match(/^([a-zA-Z_][a-zA-Z0-9_]*)$/);
                 if (simpleMatch) {
                     const propertyName = simpleMatch[1];
-                    data[propertyName] = item.value;
+                    if (propertyName === 'CountryId') {
+                        data[propertyName] = item.value ? parseInt(item.value) : null;
+                    } else {
+                        data[propertyName] = item.value;
+                    }
                     console.log('Simple field:', propertyName);
                 } else {
                     console.log('Skipping unrecognized field pattern:', item.name);
@@ -223,6 +228,29 @@ function loadGenders() {
             });
         })
         .catch(err => console.error('Failed to load genders', err));
+}
+function loadCountries() {
+    fetch(window.apiBaseUrl + '/api/Guests/FetchCountryList')
+        .then(response => response.json())
+        .then(data => {
+            const options = data.map(c => {
+                const text = c.name;
+                const key = c.id;
+                return `<option value="${key}">${text}</option>`;
+            });
+            const select = $('#countryId');
+            const selected = select.val();
+            select.empty().append('<option value="" disabled selected>Country</option>');
+            options.forEach(opt => select.append(opt));
+            if (selected) {
+                select.val(selected);
+            }
+            select.on('change', function () {
+                const text = $(this).find('option:selected').text();
+                $('#countryName').val(text);
+            });
+        })
+        .catch(err => console.error('Failed to load countries', err));
 }
 function PackagesTaskView() {
 
@@ -329,12 +357,12 @@ function validateBookingForm() {
         $('#phoneNumber').removeClass('is-invalid');
     }
 
-    const country = $('input[name="Country"]').val().trim();
+    const country = $('select[name="CountryId"]').val();
     if (!country) {
-        $('input[name="Country"]').addClass('is-invalid');
+        $('select[name="CountryId"]').addClass('is-invalid');
         isValid = false;
     } else {
-        $('input[name="Country"]').removeClass('is-invalid');
+        $('select[name="CountryId"]').removeClass('is-invalid');
     }
 
     const zip = $('input[name="ZipCode"]').val().trim();
